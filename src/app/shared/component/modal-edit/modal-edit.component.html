@@ -1,0 +1,33 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Editar Usuario</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="closeModal()">Cerrar</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <form [formGroup]="form">
+    <ion-list>
+      <ion-item >
+        <ion-label position="stacked">Nombre</ion-label>
+      <ion-input formControlName="name"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="stacked">Rol</ion-label>
+        <ion-select formControlName="Rol">
+          <ion-select-option value="bodega">Bodega</ion-select-option>
+          <ion-select-option value="conductor">Conductor</ion-select-option>
+          <ion-select-option value="rrhh">RRHH</ion-select-option>
+          <ion-select-option value="logistica">Logística</ion-select-option>
+        </ion-select>
+      </ion-item>
+    </ion-list>
+
+    <ion-button expand="full" color="primary" (click)="updateUser()">
+      Guardar
+    </ion-button>
+  </form>
+</ion-content>

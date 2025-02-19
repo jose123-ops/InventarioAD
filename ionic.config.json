@@ -1,0 +1,7 @@
+{
+  "name": "heme_aqui",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "angular"
+}

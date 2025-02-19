@@ -1,0 +1,16 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar color="primary">
+
+    <ion-buttons slot="start">
+      <ion-back-button *ngIf="BackButton" [defaultHref]="BackButton"></ion-back-button>
+      <div class="menu-button">
+        <ion-menu-button></ion-menu-button>
+      </div>
+    </ion-buttons>
+        <ion-icon slot="end" class="avatar-icon" name="person-circle-outline"></ion-icon>
+    <ion-title>
+      <strong> {{title}} </strong>
+      <div class="admin">A D M I N</div>
+    </ion-title>
+  </ion-toolbar>
+</ion-header>

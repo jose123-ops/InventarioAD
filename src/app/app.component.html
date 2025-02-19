@@ -1,0 +1,58 @@
+<ion-app>
+  <ion-menu side="start" contentId="main-content" class="mobile-menu" *ngIf="!isAuthPage">
+    <ion-header>
+      <ion-toolbar color="primary">
+        <ion-title>Menú</ion-title>
+      </ion-toolbar>
+    </ion-header>
+
+    <ion-content class="ion-text-center">
+      <ion-icon class="avatar-icon" name="person-circle-outline"></ion-icon>
+      <h4>{{User()?.name}}</h4>
+      <h5>{{User()?.Rol}}</h5>
+
+      <ion-list>
+        <ion-item routerLink="/admin" (click)=" closeMenu() " class="menu-item">
+          <ion-icon name="clipboard-outline" slot="start"></ion-icon>
+          Control de despachos
+        </ion-item>
+        <ion-item routerLink="/usuarios" (click)=" closeMenu() " class="menu-item">
+          <ion-icon name="car-outline" slot="start"></ion-icon>
+          Asignacion de rutas
+        </ion-item>
+        <ion-item routerLink="/config" (click)=" closeMenu() " class="menu-item">
+          <ion-icon name="server-outline" slot="start"></ion-icon>
+          Insumos
+        </ion-item>
+        <ion-item (click)=" closeMenu() " class="menu-item">
+          <ion-icon name="layers-outline" slot="start"></ion-icon>
+          Muestras
+        </ion-item>
+      </ion-list>
+    </ion-content>
+
+    <ion-footer>
+      <ion-buttons>
+        <ion-button id="present-alert" expand="full" fill="clear">
+          <ion-alert
+  trigger="present-alert"
+  header="Alerta!"
+  message="¿Estás seguro de cerrar sesión?"
+  cssClass="my-custom-class"
+  [buttons]="alertButtons"
+  (didDismiss)="setResult($event)">
+</ion-alert>
+          <ion-icon name="log-out-outline" slot="start"></ion-icon>
+          Cerrar Sesion
+        </ion-button>
+      </ion-buttons>
+    </ion-footer>
+  </ion-menu>
+
+  <!-- Contenedor Principal -->
+  <ion-page id="main-content">
+    <ion-router-outlet></ion-router-outlet>
+  </ion-page>
+
+  <ion-router-outlet></ion-router-outlet>
+</ion-app>

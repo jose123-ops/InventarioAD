@@ -1,0 +1,77 @@
+<app-header BackButton="/admin" title="Resgistro"></app-header>
+
+<ion-content class="login-container">
+  <div class="login-wrapper">
+
+    <div class="login-image"></div>
+
+    <!-- Sección de Formulario -->
+    <div class="login-form">
+     
+      <form [formGroup]="form" class="auth-form">
+       <!-- <ion-button  *ngIf="!form.value.image"  fill="clear" (click)="takePicture()">
+          <ion-icon class="icon-picture" name="camera-outline"></ion-icon>
+        </ion-button>
+
+        <ion-avatar class="icon-picture" *ngIf="form.value.image">
+          <img [src]="form.value.image">
+        </ion-avatar>-->
+
+        <app-custom-input
+        icon="person-outline"
+        [control]="form.controls.name "
+        label="Nombre"
+        type="text"
+        autocompleta="name">
+      </app-custom-input>
+        <div class="validators" *ngIf="form.controls.name.errors && form.controls.email.touched">
+          <div *ngIf="form.controls.email.errors?.['required']">Nombre Requerido</div>
+          <div *ngIf="form.controls.email.errors?.['minlenght']">El nombre debe tener como minimo 3 letras</div>
+        </div>
+
+        <app-custom-input
+        icon="mail-outline"
+        [control]="form.controls.email "
+        label="Correo Electrónico"
+        type="email"
+        autocompleta="correo">
+      </app-custom-input>
+        <div class="validators" *ngIf="form.controls.email.errors && form.controls.email.touched">
+          <div *ngIf="form.controls.email.errors?.['required']">El Correo es requerido</div>
+          <div *ngIf="form.controls.email.errors?.['email']">debe ser un correo valido</div>
+        </div>
+
+
+        <app-custom-input
+          icon="lock-closed-outline"
+          [control]="form.controls.password"
+          label="Contraseña"
+          type="password">
+        </app-custom-input>
+        <div class="validators" *ngIf="form.controls.password.errors && form.controls.password.touched">
+          <div *ngIf="form.controls.password.errors?.['required']">La contraseña es requerida</div>
+        </div>
+
+
+        <ion-item>
+          <ion-icon name="clipboard-outline" slot="start"></ion-icon>
+          <ion-label>Rol a desempeñar</ion-label>
+          <ion-select [formControl]="form.controls.Rol" placeholder="Selecciona un rol">
+            <ion-select-option value="bodega">Bodega</ion-select-option>
+            <ion-select-option value="conductor">Conductor</ion-select-option>
+            <ion-select-option value="rrhh">RRHH</ion-select-option>
+            <ion-select-option value="logistica">Logística</ion-select-option>
+          </ion-select>
+        </ion-item>
+        
+        <div class="validators" *ngIf="form.controls.Rol.errors && form.controls.Rol.touched">
+          <div *ngIf="form.controls.Rol.errors?.['required']">Rol requerido</div>
+        </div>
+        
+        
+
+        <ion-button color="primary" expand="block" shape="round" class="login-button" [disabled]="form.invalid" (click)="Registrar()">registrar</ion-button>
+      </form>
+    </div>
+  </div>
+</ion-content>

@@ -1,0 +1,165 @@
+<app-header title="ADMIN">
+</app-header>
+<ion-content>
+
+  <div class="desktop-only">
+    <ion-grid>
+      <ion-row class="custom-row">
+        <ion-col size="12" size-md="3" class="centered-col">
+          <ion-avatar 
+            class="custom-avatar">
+            <img src="assets/images/despacho.jpg" />
+          </ion-avatar>
+          <ion-card-header>
+            <ion-card-title>Controles de Despachos</ion-card-title>
+          </ion-card-header>
+          <ion-card-subtitle>
+            Creación de controles de despachos
+          </ion-card-subtitle>
+        </ion-col>
+  
+        <ion-col size="12" size-md="3" class="centered-col">
+          <ion-avatar 
+            class="custom-avatar">
+            <img src="assets/images/rutas.jpg" />
+          </ion-avatar>
+          <ion-card-header>
+            <ion-card-title>Rutas Diarias</ion-card-title>
+          </ion-card-header>
+          <ion-card-subtitle>
+            Asignación de rutas
+          </ion-card-subtitle>
+        </ion-col>
+  
+        <ion-col size="12" size-md="3" class="centered-col">
+          <ion-avatar 
+            class="custom-avatar"
+        >
+            <img src="assets/images/insumos.jpg" />
+          </ion-avatar>
+          <ion-card-header>
+            <ion-card-title>Insumos</ion-card-title>
+          </ion-card-header>
+          <ion-card-subtitle>
+            Asignación de insumos
+          </ion-card-subtitle>
+        </ion-col>
+  
+        <ion-col size="12" size-md="3" class="centered-col">
+          <ion-avatar 
+            class="custom-avatar">
+            <img src="assets/images/muestras.jpg" />
+          </ion-avatar>
+          <ion-card-header>
+            <ion-card-title>Muestras</ion-card-title>
+          </ion-card-header>
+          <ion-card-subtitle>
+            Entradas, recepción y salidas
+          </ion-card-subtitle>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
+  
+  
+  
+
+  <!-- Contenedor del botón -->
+  <div class="button-container">
+    <ion-toolbar>
+    <ion-buttons slot="end" >
+      <ion-button fill="solid" shape="round" color="primary" routerLink="sing-up" >
+        <ion-icon slot="start" name="add-outline"></ion-icon>
+        Agregar Usuario
+      </ion-button>
+    </ion-buttons>
+    </ion-toolbar>
+  </div>
+
+  <ion-card-header>
+    <ion-card-title>Usuarios</ion-card-title>
+  </ion-card-header>
+  <!-- Contenedor de tabla para escritorio -->
+  <div class="table-container">
+    <ion-card>
+      <ion-card-content>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Nombre</th>
+              <th>Email</th>
+              <th>Contraseña</th>
+              <th>Rol</th>
+              <th>Opciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let user of users">
+              <td>{{ user.name }}</td>
+              <td>{{ user.email }}</td>
+              <td>{{ user.password }}</td>
+              <td>{{ user.Rol }}</td>
+              <td>
+                <ion-button fill="clear" color="primary" size="small" (click)="openEditModal(user)" >
+                  <ion-icon name="create-outline"></ion-icon>
+                </ion-button>
+                <ion-button fill="clear" color="danger" size="small">
+                  <ion-icon name="trash-outline"></ion-icon>
+                </ion-button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+      </ion-card-content>
+    </ion-card>
+  </div>
+  
+  <!-- Contenedor para móviles -->
+    <ion-card-content>
+      <div class="mobile-container">
+        <div class="mobile-table" *ngFor="let user of users">
+          <table>
+            <tbody>
+              <tr>
+                <td class="title">Nombre</td>
+                <td class="data">{{ user.name }}</td>
+              </tr>
+              <tr>
+                <td class="title">Email</td>
+                <td class="data">{{ user.email }}</td>
+              </tr>
+              <tr>
+                <td class="title">Contraseña</td>
+                <td class="data">{{ user.password }}</td>
+              </tr>
+              <tr>
+                <td class="title">Rol</td>
+                <td class="data">{{ user.Rol }}</td>
+              </tr>
+              <tr>
+                <td class="title">Opciones</td>
+                <td class="data actions">
+                  <ion-button fill="clear" color="primary" size="small" (click)="openEditModal(user)">
+                    <ion-icon name="create-outline"></ion-icon>
+                  </ion-button>
+                  <ion-button fill="clear" color="danger" size="small" >
+                    <ion-icon name="trash-outline"></ion-icon>
+                  </ion-button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </ion-card-content>
+<div class="fab-container"> 
+  <ion-fab slot="fixed" vertical="bottom" horizontal="end">
+    <ion-fab-button routerLink="sing-up">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab> 
+</div>
+  
+ 
+</ion-content>

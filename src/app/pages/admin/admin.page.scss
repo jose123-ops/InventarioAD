@@ -1,0 +1,233 @@
+ion-card {
+    display: flex;
+    flex-direction: column;
+    height: 250px; /* Altura más pequeña para las cards */
+    border-radius: 10px;
+    overflow: hidden;
+    margin: 10px 0; /* Ajusta el margen si es necesario */
+  }
+  
+  ion-img {
+    width: 100%; /* Asegura que la imagen ocupe todo el ancho */
+    height: 100px; /* Altura más pequeña para la imagen */
+    object-fit: cover; /* Mantiene la imagen proporcional sin distorsionarla */
+  }
+  
+  ion-card-header {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 5px; /* Reduce el padding */
+  }
+  
+  ion-card-title {
+    font-size: 16px; /* Tamaño de fuente más pequeño */
+  }
+  
+  ion-card-subtitle {
+    font-size: 12px; /* Tamaño de fuente más pequeño */
+    padding: 0px;
+    color: gray;
+  }
+  
+
+  .custom-row {
+    justify-content: space-around; /* Espaciado uniforme entre los cards */
+  }
+  
+  .custom-card {
+    height: 220px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 10px;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Agregamos transiciones suaves */
+  }
+  
+  .custom-card ion-img {
+    height: 100px; /* Reduce el tamaño de la imagen */
+    object-fit: cover; /* Asegura que la imagen no se distorsione */
+    border-radius: 10px;
+  }
+  
+  .custom-card:hover {
+    transform: scale(1.05); /* Hace que el card crezca un poco */
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2); /* Agrega una sombra */
+    cursor: pointer; /* Cambia el cursor para indicar interactividad */
+  }
+
+  .table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .table th, .table td {
+    padding: 10px;
+    text-align: center; /* Centrar texto */
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .table th {
+    background-color: #f4f4f4;
+    font-weight: bold;
+  }
+  
+  .table td {
+    word-break: break-word; /* Evitar desbordes */
+  }
+  
+  /* Ajustar la columna de opciones */
+  .table td:last-child {
+    width: 120px; /* Ajustar según necesidad */
+  }
+  
+  /* Espaciado entre botones */
+  ion-button {
+    margin: 0 4px;
+  }
+
+.mobile-container {
+  display: none; /* Oculto en escritorio */
+}
+
+.desktop-only{
+  display: block; /* Mostrar en móvil */
+}
+
+.button-container{
+  display:block; /* Mostrar contenedor de botones en escritorio */
+}
+
+.fab-container{
+  display: none;
+}
+
+/* 📱 Estilos para vista móvil */
+@media (max-width: 768px) {
+
+  .table-container {
+    display: none; /* Ocultar tabla en móvil */
+  }
+
+  .desktop-only{
+    display: none; /* Oculto en móvil */
+  }
+
+  .button-container{
+    display: none; /* Ocultar contenedor de botones en móvil */
+  }
+
+  .fab-container{
+    display: block; /* Mostrar botón flotante en móvil */
+  }
+
+  .mobile-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .mobile-table {
+    width: 100%;
+    border-radius: 10px;
+    overflow: hidden;
+    border: 3px solid #ddd;
+    background: white;
+  }
+
+  .mobile-table table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  .mobile-table tr {
+    display: flex;
+    align-items: center;
+  }
+
+  .mobile-table td {
+    padding: 12px;
+    min-height: 40px; /* Asegura que todas las celdas tengan al menos la misma altura */
+  }
+
+  .title {
+    background: rgb(255, 71, 25);
+    color: white;
+    font-weight: bold;
+    width: 40%;
+    min-width: 150px; /* Fija el ancho del título */
+    text-align: left;
+    display: flex;
+    align-items: center;
+  }
+
+  .data {
+    background: white;
+    width: 60%;
+    min-width: 200px; /* Fija el ancho de los datos */
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+    display: flex;
+    align-items: center;
+  }
+
+  .mobile-table tr:last-child .data {
+    border-bottom: none;
+  }
+
+  .actions {
+    display: flex;
+    justify-content: flex-start;
+    gap: 10px;
+  }
+
+  .actions ion-button {
+    margin: 0;
+  }
+}
+
+
+
+.custom-row {
+  display: flex;
+  justify-content: center; /* Centra las columnas */
+  align-items: center; /* Alinea las columnas verticalmente */
+}
+
+.centered-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Centra el contenido dentro de cada columna */
+  text-align: center;
+}
+
+.custom-avatar {
+  width: 120px; /* Tamaño del avatar */
+  height: 120px;
+  border-radius: 50%; /* Mantiene la forma redonda */
+  margin-bottom: 10px; /* Espacio entre el avatar y el título */
+  transition: transform 0.2s ease, box-shadow 0.2s ease; /* Transiciones suaves */
+}
+
+/* Estilo cuando el usuario pasa el mouse sobre el avatar (hover) */
+.custom-avatar:hover {
+  transform: scale(1.1); /* Hace el avatar un poco más grande */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Añade una sombra alrededor */
+}
+
+/* Estilo para el borde cuando el avatar está seleccionado */
+.selected-avatar {
+  border: 3px solid #3880ff; /* Borde azul cuando está seleccionado */
+  transform: scale(1.1); /* Hace el avatar un poco más grande cuando se selecciona */
+}
+
+
+ion-card-header,
+ion-card-subtitle {
+  text-align: center; /* Centra los títulos */
+  margin: 0;
+  padding: 0;
+}

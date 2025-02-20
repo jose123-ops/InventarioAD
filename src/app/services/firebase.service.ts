@@ -35,23 +35,24 @@ export class FirebaseService {
   }*/
 
     signup(user: { name: string, email: string, password: string, Rol: string }): Observable<any> {
-      console.log('Enviando solicitud al backend...', user);  // Verifica los datos enviados al backend
+      console.log('Enviando solicitud al backend...', user);  
       const auth = getAuth();
       
       return new Observable((observer) => {
         createUserWithEmailAndPassword(auth, user.email, user.password)
           .then((userCredential) => {
             const uid = userCredential.user.uid;
-            console.log('UID del usuario:', uid); // Verifica si el UID está correcto
-            // Llamada al backend con el UID
+            console.log('UID del usuario:', uid); 
+         
             this.http.post<any>(`${this.apiUrl}/signup`, {
-              uid: uid,
+              id: uid,
               name: user.name,
               email: user.email,
+              password: user.password,
               Rol: user.Rol
             }).subscribe({
               next: (res) => {
-                console.log('Respuesta del backend:', res);  // Verifica la respuesta
+                console.log('Respuesta del backend:', res); 
                 observer.next(res);
               },
               error: (err) => {
@@ -126,5 +127,12 @@ export class FirebaseService {
   logout() {
     return this.auth.signOut();
   }
+
+
+
+  registrarUsuario(datos: any): Observable<any> {
+    return this.http.post(this.apiUrl, datos);
+  }
 }
+
 

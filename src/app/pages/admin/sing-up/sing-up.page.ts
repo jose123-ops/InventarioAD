@@ -20,8 +20,6 @@ export class SingUpPage implements OnInit {
     password: new FormControl('', [Validators.required]),
     name: new FormControl('', [Validators.required, Validators.minLength(3)]),
     Rol: new FormControl('', [Validators.required, Validators.minLength(4)]),
-
-
   })
 
   constructor(
@@ -36,20 +34,16 @@ export class SingUpPage implements OnInit {
   async Registrar() {
     if (this.form.valid) {
       const loading = await this.service.loading('Cargando ...', 'crescent');
-      
-      // Llamamos al servicio para crear el usuario
-      this.firebasesvc.signup(this.form.value as { name: string, email: string, password: string, Rol: string })
+      this.firebasesvc.signup(this.form.value as {name: string, email: string, password: string, Rol: string })
         .subscribe({
           next: (res) => {
-            console.log('Respuesta completa del backend:', res); // Verifica la respuesta completa
-  
-            // Si la respuesta tiene el campo uid
+            console.log('Respuesta completa del backend:', res);
             if (res && res.uid) {
               let uid = res.uid;
-              console.log('UID recibido:', uid); // Verificar que UID esté aquí
-  
+              console.log('UID recibido:', uid); 
               this.form.controls.uid?.setValue(uid);
-              this.setUser(uid);
+              this.Register()
+              //this.setUser(uid);
               this.showToast();
               this.router.navigate(['/admin']);
             } else {
@@ -57,7 +51,7 @@ export class SingUpPage implements OnInit {
             }
           },
           error: (err) => {
-            console.error('Error en el signup:', err);  // Verifica el error
+            console.error('Error en el signup:', err);  
             this.service.toast(err.message, 3000, 'middle');
           },
           complete: () => {
@@ -66,10 +60,6 @@ export class SingUpPage implements OnInit {
         });
     }
   }
-  
-  
-  
-  
   
   showToast() {
     this.service.toast('Usuario registrado con éxito', 3000, 'bottom');  // Mostrar mensaje de éxito
@@ -106,8 +96,23 @@ export class SingUpPage implements OnInit {
     this.form.controls.email.setValue(dataUrl)
   }
 
+
+  Register() {
+    if (this.form.valid) {
+      this.firebasesvc.registrarUsuario(this.form.value).subscribe({
+        next: (res) => {
+          console.log('Usuario registrado:', res);
+        },
+        error: (err) => {
+          console.error('Error en el registro:', err);
+        }
+      });
+    }
+  }
+}
+
  
   
 
-}
+
 

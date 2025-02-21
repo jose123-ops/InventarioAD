@@ -29,6 +29,8 @@ export class AppComponent {
       .subscribe(() => {
         this.isAuthPage = this.checkAuthPage();
       });
+
+      this.firebaseService.initAuthListener();
   }
   
 

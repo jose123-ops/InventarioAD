@@ -28,6 +28,7 @@ export class AuthPage implements OnInit {
   // firebasesvc = inject(FirebaseService);
 
   ngOnInit() {
+    this.firebasesvc.initAuthListener();
   }
 
   async submit() {

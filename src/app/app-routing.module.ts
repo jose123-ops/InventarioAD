@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from './guards/auth.guard';
+import { RoleGuard } from './guards/auth-role.guard';
 
 const routes: Routes = [
  
@@ -11,15 +12,33 @@ const routes: Routes = [
   },
   {
     path: 'auth',
-    loadChildren: () => import('./pages/auth/auth.module').then( m => m.AuthPageModule)
+    loadChildren: () => import('./pages/auth/auth.module').then(m => m.AuthPageModule)
   },
   {
     path: 'admin',
-    loadChildren: () => import('./pages/admin/admin.module').then( m => m.AdminPageModule),
-        canActivate: [AuthGuard]
+    loadChildren: () => import('./pages/admin/admin.module').then(m => m.AdminPageModule),
+    canActivate: [AuthGuard, RoleGuard],
+    data: { Rol: ['admin'] }  // Solo el admin puede acceder
   },
- 
-  
+  {
+    path: 'control-despacho',
+    loadChildren: () => import('./pages/control-despacho/control-despacho.module').then(m => m.ControlDespachoPageModule),
+    canActivate: [AuthGuard, RoleGuard],
+    data: { Rol: ['admin', 'jefe_bodega', 'logistica'] }  // Admin, jefe de bodega y logística pueden acceder
+  },
+  {
+    path: 'asig-rutas',
+    loadChildren: () => import('./pages/asig-rutas/asig-rutas.module').then(m => m.AsigRutasPageModule),
+    canActivate: [AuthGuard, RoleGuard],
+    data: { Rol: ['admin', 'jefe_bodega', 'logistica', 'conductor'] }  // Admin, jefe de bodega, logística y conductor
+  },
+  {
+    path: 'insumos',
+    loadChildren: () => import('./pages/insumos/insumos.module').then(m => m.InsumosPageModule),
+    canActivate: [AuthGuard, RoleGuard],
+    data: { Rol: ['admin', 'jefe_bodega', 'logistica', 'RRHH'] }  // Admin, jefe de bodega, logística y rrhh
+  },
+
 ];
 
 @NgModule({
@@ -28,4 +47,4 @@ const routes: Routes = [
   ],
   exports: [RouterModule]
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

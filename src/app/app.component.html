@@ -14,13 +14,18 @@
       <ion-list>
         <ion-item routerLink="/admin" (click)=" closeMenu() " class="menu-item">
           <ion-icon name="clipboard-outline" slot="start"></ion-icon>
+          Home
+        </ion-item>
+
+        <ion-item routerLink="/control-despacho" (click)=" closeMenu() " class="menu-item">
+          <ion-icon name="clipboard-outline" slot="start"></ion-icon>
           Control de despachos
         </ion-item>
-        <ion-item routerLink="/usuarios" (click)=" closeMenu() " class="menu-item">
+        <ion-item routerLink="/asig-rutas" (click)=" closeMenu() " class="menu-item">
           <ion-icon name="car-outline" slot="start"></ion-icon>
           Asignacion de rutas
         </ion-item>
-        <ion-item routerLink="/config" (click)=" closeMenu() " class="menu-item">
+        <ion-item routerLink="/insumos" (click)=" closeMenu() " class="menu-item">
           <ion-icon name="server-outline" slot="start"></ion-icon>
           Insumos
         </ion-item>

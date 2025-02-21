@@ -1,5 +1,5 @@
 export interface User {
-    uid: string;
+    id: string;
     email: string;
     password: string;
     name?: string;

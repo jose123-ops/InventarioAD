@@ -24,7 +24,7 @@ export class ModalEditComponent  implements OnInit {
 
   ngOnInit() {
     if (this.userData) {
-     this.userData.uid; 
+     this.userData.id; 
       this.form.patchValue(this.userData); 
     }
 
@@ -38,7 +38,7 @@ export class ModalEditComponent  implements OnInit {
   }
 
   async updateUser() {
-    let  userId = this.userData.uid; 
+    let  userId = this.userData.id; 
     let path = `users/${userId}`;
     this.firebaseService.updateDocument(path, this.form.value)
       .then(async () => {

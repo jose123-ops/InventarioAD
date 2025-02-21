@@ -24,6 +24,7 @@ export class AdminPage implements OnInit {
   })
 
   users: any[] = [];
+  registros: any[];
   
   constructor(private router: Router,
     private firebaseService: FirebaseService,
@@ -35,6 +36,11 @@ export class AdminPage implements OnInit {
  
  
     this.loadUsers();
+
+    this.firebaseService.getRegistros().subscribe(data => {
+      console.log('🟢 Registros obtenidos:', data.length, data);
+      this.registros = data;
+    });
   }
 
   loadUsers() {

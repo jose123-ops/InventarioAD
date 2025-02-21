@@ -31,24 +31,17 @@ export class SingUpPage implements OnInit {
   ngOnInit() {
   }
 
+ //---------------------------------/* Registra un nuevo usuario en Firebase */---------------------------------//
   async Registrar() {
     if (this.form.valid) {
       const loading = await this.service.loading('Cargando ...', 'crescent');
       this.firebasesvc.signup(this.form.value as {name: string, email: string, password: string, Rol: string })
         .subscribe({
           next: (res) => {
-            console.log('Respuesta completa del backend:', res);
-            if (res && res.uid) {
-              let uid = res.uid;
-              console.log('UID recibido:', uid); 
+              let uid = res.uid; 
               this.form.controls.uid?.setValue(uid);
-              this.Register()
-              //this.setUser(uid);
               this.showToast();
               this.router.navigate(['/admin']);
-            } else {
-              console.error('UID no recibido correctamente');
-            }
           },
           error: (err) => {
             console.error('Error en el signup:', err);  
@@ -62,15 +55,24 @@ export class SingUpPage implements OnInit {
   }
   
   showToast() {
-    this.service.toast('Usuario registrado con éxito', 3000, 'bottom');  // Mostrar mensaje de éxito
+    this.service.toast('Usuario registrado con éxito', 3000, 'top');  // Mostrar mensaje de éxito
   }
+
+  /*-----------------------------------------------------------------------------------------------------------*/
+ 
+
+
+
+ 
+
+
   
-  async setUser(uid: string) {
+ 
+  /*async setUser(uid: string) {
     if (!this.form.valid) {
       console.error("Formulario inválido:", this.form.value);
       return;
     }
-  
     const loading = await this.service.loading('Guardando usuario...', 'crescent');
   
     let path = `users/${uid}`;
@@ -88,27 +90,16 @@ export class SingUpPage implements OnInit {
       .finally(() => {
         this.service.hide(loading);
       });
-  }
+  }*/
   
 
-  async takePicture(){
+ /* async takePicture(){
     const dataUrl = (await this.service.takePicture('foto')).dataUrl;
     this.form.controls.email.setValue(dataUrl)
-  }
+  }*/
 
 
-  Register() {
-    if (this.form.valid) {
-      this.firebasesvc.registrarUsuario(this.form.value).subscribe({
-        next: (res) => {
-          console.log('Usuario registrado:', res);
-        },
-        error: (err) => {
-          console.error('Error en el registro:', err);
-        }
-      });
-    }
-  }
+  
 }
 
  

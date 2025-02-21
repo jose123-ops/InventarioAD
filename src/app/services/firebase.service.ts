@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
-import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, updateProfile, User, deleteUser } from 'firebase/auth';
+import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, updateProfile, User, deleteUser, onAuthStateChanged } from 'firebase/auth';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
-import { getFirestore, setDoc, doc, getDoc, updateDoc,deleteDoc  } from 'firebase/firestore';
-import { map, Observable } from 'rxjs';
+import { getFirestore, setDoc, doc, getDoc, updateDoc,deleteDoc, collection  } from 'firebase/firestore';
+import { BehaviorSubject, map, Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 
@@ -12,13 +12,18 @@ import { environment } from 'src/environments/environment';
 })
 export class FirebaseService {
   private currentUser: User | null = null;
+  private userRoleSubject = new BehaviorSubject<string>('');
+  public userRole$ = this.userRoleSubject.asObservable();
 
   //private apiUrl = environment.apiBaseUrl;
   private apiUrl = 'http://localhost:3000/api';
+  isRoleLoaded: boolean;
 
   constructor(private auth: AngularFireAuth,
     private firestore: AngularFirestore,
     private http: HttpClient) {
+
+    this.initAuthListener();
 
     this.auth.authState.subscribe(user => {
       this.currentUser = user;
@@ -29,20 +34,16 @@ export class FirebaseService {
     return signInWithEmailAndPassword(getAuth(), user.email, user.password);
   }
 
-
   /*signup(user: { email: string, password: string }) {
     return createUserWithEmailAndPassword(getAuth(), user.email, user.password);
   }*/
 
     signup(user: { name: string, email: string, password: string, Rol: string }): Observable<any> {
-      console.log('Enviando solicitud al backend...', user);  
       const auth = getAuth();
-      
       return new Observable((observer) => {
         createUserWithEmailAndPassword(auth, user.email, user.password)
           .then((userCredential) => {
             const uid = userCredential.user.uid;
-            console.log('UID del usuario:', uid); 
          
             this.http.post<any>(`${this.apiUrl}/signup`, {
               id: uid,
@@ -52,7 +53,6 @@ export class FirebaseService {
               Rol: user.Rol
             }).subscribe({
               next: (res) => {
-                console.log('Respuesta del backend:', res); 
                 observer.next(res);
               },
               error: (err) => {
@@ -70,11 +70,6 @@ export class FirebaseService {
       });
     }
     
-    
-    
-  
-    
-
   getUserById(userId: string) {
     return this.firestore.collection('users').doc(userId).valueChanges();
   }
@@ -83,10 +78,10 @@ export class FirebaseService {
     return updateDoc(doc(getFirestore(), path), data)
   }
 
+  
   deletedDocument(path: string) {
     return deleteDoc(doc(getFirestore(), path))
   }
-
 
   setDocument(path: string, data: any) {
     return setDoc(doc(getFirestore(), path), data);
@@ -105,6 +100,55 @@ export class FirebaseService {
   getUsers(): Observable<any[]> {
     return this.firestore.collection('users').valueChanges();
   }
+  isLoggedIn(): boolean {
+    return this.currentUser !== null;
+  }
+
+  // Método para cerrar sesión
+  logout() {
+    return this.auth.signOut();
+  }
+
+  public initAuthListener() {
+    const auth = getAuth();
+    onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        this.currentUser = user;
+        await this.loadUserRole(user.uid);
+      } else {
+        this.currentUser = null;
+        this.isRoleLoaded = false;
+        this.userRoleSubject.next(null);
+      }
+    });
+  }
+
+  async loadUserRole(uid: string) {
+    const userDocRef = this.firestore.doc(`users/${uid}`).ref;
+    const userDocSnap = await getDoc(userDocRef);
+
+    if (userDocSnap.exists()) {
+      const userData = userDocSnap.data() as { Rol?: string };
+      this.isRoleLoaded = true;
+      this.userRoleSubject.next(userData?.Rol || null);
+    } else {
+      this.isRoleLoaded = true;
+      this.userRoleSubject.next(null);
+    }
+  }
+
+  
+
+  getUserRole(): string {
+    return this.userRoleSubject.value;
+  }
+
+
+  getRegistros(): Observable<any[]> {
+    const registrosRef = this.firestore.collection('users').valueChanges();
+    return registrosRef;
+  }
+}
 
 
   /*getUser(): Observable<any[]> {
@@ -119,20 +163,7 @@ export class FirebaseService {
   }*/
 
   // Método para verificar si el usuario está autenticado
-  isLoggedIn(): boolean {
-    return this.currentUser !== null;
-  }
+ 
 
-  // Método para cerrar sesión
-  logout() {
-    return this.auth.signOut();
-  }
-
-
-
-  registrarUsuario(datos: any): Observable<any> {
-    return this.http.post(this.apiUrl, datos);
-  }
-}
 
 

@@ -38,7 +38,6 @@ export class AdminPage implements OnInit {
     this.loadUsers();
 
     this.firebaseService.getRegistros().subscribe(data => {
-      console.log('🟢 Registros obtenidos:', data.length, data);
       this.registros = data;
     });
   }

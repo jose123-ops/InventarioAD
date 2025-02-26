@@ -32,27 +32,27 @@ export class SingUpPage implements OnInit {
   }
 
  //---------------------------------/* Registra un nuevo usuario en Firebase */---------------------------------//
-  async Registrar() {
-    if (this.form.valid) {
-      const loading = await this.service.loading('Cargando ...', 'crescent');
-      this.firebasesvc.signup(this.form.value as {name: string, email: string, password: string, Rol: string })
-        .subscribe({
-          next: (res) => {
-              let uid = res.uid; 
-              this.form.controls.uid?.setValue(uid);
-              this.showToast();
-              this.router.navigate(['/admin']);
-          },
-          error: (err) => {
-            console.error('Error en el signup:', err);  
-            this.service.toast(err.message, 3000, 'middle');
-          },
-          complete: () => {
-            this.service.hide(loading);
-          }
-        });
-    }
+ async Registrar() {
+  if (this.form.valid) {
+    const loading = await this.service.loading('Cargando ...', 'crescent');
+
+    this.firebasesvc.signup(this.form.value as { name: string, email: string, password: string, Rol: string })
+      .subscribe({
+        next: (res) => {
+          this.showToast(); // Mostrar notificación de éxito
+          this.router.navigate(['/admin']); // 🔹 Redirigir al administrador
+        },
+        error: (err) => {
+          console.error('Error en el signup:', err);
+          this.service.toast(err.message, 3000, 'middle');
+        },
+        complete: () => {
+          this.service.hide(loading);
+        }
+      });
   }
+}
+
   
   showToast() {
     this.service.toast('Usuario registrado con éxito', 3000, 'top');  // Mostrar mensaje de éxito

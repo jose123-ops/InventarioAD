@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
-import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, updateProfile, User, deleteUser, onAuthStateChanged } from 'firebase/auth';
+import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, updateProfile, User, deleteUser, onAuthStateChanged, reauthenticateWithCredential,EmailAuthProvider } from 'firebase/auth';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { getFirestore, setDoc, doc, getDoc, updateDoc,deleteDoc, collection  } from 'firebase/firestore';
 import { BehaviorSubject, map, Observable } from 'rxjs';
@@ -38,13 +38,79 @@ export class FirebaseService {
     return createUserWithEmailAndPassword(getAuth(), user.email, user.password);
   }*/
 
-    signup(user: { name: string, email: string, password: string, Rol: string }): Observable<any> {
+signup(user: { name: string, email: string, password: string, Rol: string }): Observable<any> {
+  const auth = getAuth();
+  const currentAdminUser = auth.currentUser; // 🔹 Guardamos al admin antes del registro
+
+  return new Observable((observer) => {
+    if (!currentAdminUser || !currentAdminUser.email) {
+      observer.error('No se encontró un usuario administrador autenticado.');
+      return;
+    }
+
+    // 🔹 Pedimos la contraseña del administrador de alguna forma segura
+    const adminPassword = prompt('Ingrese su contraseña para confirmar el registro del usuario:');
+
+    if (!adminPassword) {
+      observer.error('Se requiere la contraseña del administrador para registrar un nuevo usuario.');
+      return;
+    }
+
+    const credential = EmailAuthProvider.credential(currentAdminUser.email, adminPassword);
+
+    reauthenticateWithCredential(currentAdminUser, credential)
+      .then(() => {
+        return createUserWithEmailAndPassword(auth, user.email, user.password);
+      })
+      .then(async (userCredential) => {
+        const uid = userCredential.user.uid;
+
+        // 🔹 Desautenticamos al usuario recién creado para evitar cambiar la sesión del admin
+        await auth.signOut();
+
+        // 🔹 Volvemos a autenticar al administrador con sus credenciales
+        await signInWithEmailAndPassword(auth, currentAdminUser.email, adminPassword);
+
+        // 🔹 Enviar datos al backend
+        this.http.post<any>(`${this.apiUrl}/signup`, {
+          id: uid,
+          name: user.name,
+          email: user.email,
+          password: user.password,
+          Rol: user.Rol
+        }).subscribe({
+          next: (res) => observer.next(res),
+          error: (err) => observer.error(err),
+          complete: () => observer.complete()
+        });
+      })
+      .catch((error) => {
+        console.error('Error en la autenticación del administrador:', error);
+        observer.error(error);
+      });
+  });
+}
+
+    
+
+   /* signup(user: { name: string, email: string, password: string, Rol: string }): Observable<any> {
       const auth = getAuth();
+      const currentAdminUser = auth.currentUser; // 🔹 Guarda el usuario administrador actual
+    
       return new Observable((observer) => {
         createUserWithEmailAndPassword(auth, user.email, user.password)
-          .then((userCredential) => {
+          .then(async (userCredential) => {
             const uid = userCredential.user.uid;
-         
+    
+            // 🔹 Desautenticamos al usuario recién creado para evitar cambiar la sesión del admin
+            await auth.signOut();
+    
+            // 🔹 Volvemos a autenticar al administrador con sus credenciales guardadas
+            if (currentAdminUser) {
+              await signInWithEmailAndPassword(auth, currentAdminUser.email, currentAdminUser.email);
+            }
+    
+            // 🔹 Enviamos los datos del usuario al backend
             this.http.post<any>(`${this.apiUrl}/signup`, {
               id: uid,
               name: user.name,
@@ -52,23 +118,19 @@ export class FirebaseService {
               password: user.password,
               Rol: user.Rol
             }).subscribe({
-              next: (res) => {
-                observer.next(res);
-              },
-              error: (err) => {
-                observer.error(err);
-              },
-              complete: () => {
-                observer.complete();
-              }
+              next: (res) => observer.next(res),
+              error: (err) => observer.error(err),
+              complete: () => observer.complete()
             });
+    
           })
           .catch((error) => {
             console.error('Error en la creación del usuario:', error);
             observer.error(error);
           });
       });
-    }
+    }*/
+    
     
   getUserById(userId: string) {
     return this.firestore.collection('users').doc(userId).valueChanges();
@@ -112,7 +174,7 @@ export class FirebaseService {
   public initAuthListener() {
     const auth = getAuth();
     onAuthStateChanged(auth, async (user) => {
-      if (user) {
+      if (user && user.email !== 'admin@kouture.com') { // ⛔ Evita sobreescribir el rol del admin
         this.currentUser = user;
         await this.loadUserRole(user.uid);
       } else {
@@ -122,6 +184,7 @@ export class FirebaseService {
       }
     });
   }
+  
 
   async loadUserRole(uid: string) {
     const userDocRef = this.firestore.doc(`users/${uid}`).ref;
@@ -137,8 +200,6 @@ export class FirebaseService {
     }
   }
 
-  
-
   getUserRole(): string {
     return this.userRoleSubject.value;
   }
@@ -148,6 +209,29 @@ export class FirebaseService {
     const registrosRef = this.firestore.collection('users').valueChanges();
     return registrosRef;
   }
+
+
+  getUserByEmail(email: string): Promise<any> {
+  return new Promise((resolve, reject) => {
+    this.firestore.collection('users', ref => ref.where('email', '==', email))
+      .get()
+      .subscribe({
+        next: (querySnapshot) => {
+          if (!querySnapshot.empty) {
+            const userData = querySnapshot.docs[0].data(); // Tomamos el primer resultado
+            resolve(userData);
+          } else {
+            resolve(null);
+          }
+        },
+        error: (err) => {
+          console.error("❌ Error al obtener usuario por email:", err);
+          reject(err);
+        }
+      });
+  });
+}
+
 }
 
 

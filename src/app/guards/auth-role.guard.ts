@@ -13,9 +13,9 @@ export class RoleGuard implements CanActivate {
   // Mapeo de roles a rutas por defecto
   private roleDefaultRoute: { [key: string]: string } = {
     'admin': '/admin',
-    'jefe_bodega': '/control-despacho',
-    'logistica': '/control-despacho',
-    'auxiliar_bodega': '/muestras',
+    'Jefe_Bodega': '/control-despacho',
+    'Jefe_Logística': '/control-despacho',
+    'Auxiliar_Bodega': '/muestras',
     'conductor': '/asig-rutas',
     'RRHH': '/insumos'
   };

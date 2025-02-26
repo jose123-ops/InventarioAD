@@ -24,19 +24,19 @@ const routes: Routes = [
     path: 'control-despacho',
     loadChildren: () => import('./pages/control-despacho/control-despacho.module').then(m => m.ControlDespachoPageModule),
     canActivate: [AuthGuard, RoleGuard],
-    data: { Rol: ['admin', 'jefe_bodega', 'logistica'] }  // Admin, jefe de bodega y logística pueden acceder
+    data: { Rol: ['admin', 'Jefe_Bodega', 'Jefe_Logística'] }  // Admin, jefe de bodega y logística pueden acceder
   },
   {
     path: 'asig-rutas',
     loadChildren: () => import('./pages/asig-rutas/asig-rutas.module').then(m => m.AsigRutasPageModule),
     canActivate: [AuthGuard, RoleGuard],
-    data: { Rol: ['admin', 'jefe_bodega', 'logistica', 'conductor'] }  // Admin, jefe de bodega, logística y conductor
+    data: { Rol: ['admin', 'Jefe_Bodega', 'Jefe_Logística', 'conductor'] }  // Admin, jefe de bodega, logística y conductor
   },
   {
     path: 'insumos',
     loadChildren: () => import('./pages/insumos/insumos.module').then(m => m.InsumosPageModule),
     canActivate: [AuthGuard, RoleGuard],
-    data: { Rol: ['admin', 'jefe_bodega', 'logistica', 'RRHH'] }  // Admin, jefe de bodega, logística y rrhh
+    data: { Rol: ['admin', 'Jefe_Bodega', 'Jefe_Logística', 'RRHH'] }  // Admin, jefe de bodega, logística y rrhh
   },
 
 ];

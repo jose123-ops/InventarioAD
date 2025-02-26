@@ -1,11 +1,12 @@
 ion-card {
-    display: flex;
-    flex-direction: column;
-    height: 250px; /* Altura más pequeña para las cards */
-    border-radius: 10px;
-    overflow: hidden;
-    margin: 10px 0; /* Ajusta el margen si es necesario */
-  }
+  display: flex;
+  flex-direction: column;
+  height: auto; /* Se adapta al contenido */
+  border-radius: 10px;
+  overflow: hidden; /* O puedes eliminarlo si no es necesario */
+  margin: 10px 0;
+}
+
   
   ion-img {
     width: 100%; /* Asegura que la imagen ocupe todo el ancho */

@@ -91,6 +91,15 @@ signup(user: { name: string, email: string, password: string, Rol: string }): Ob
   });
 }
 
+getConductores(): Observable<any[]> {
+  return this.firestore.collection('users', ref => ref.where('Rol', '==', 'conductor')).valueChanges();
+}
+
+getRutasAsignadas(): Observable<any[]> {
+  return this.firestore.collection('rutas').valueChanges();
+}
+
+
     
 
    /* signup(user: { name: string, email: string, password: string, Rol: string }): Observable<any> {

@@ -1,6 +1,68 @@
-<app-header title="Asignar Rutas"></app-header>
+<ion-header>
+    <ion-toolbar>
+        <ion-title>Asignación de Ruta</ion-title>
+    </ion-toolbar>
+</ion-header>
 
-<ion-content [fullscreen]="true">
+<ion-content class="ion-padding">
+    <form [formGroup]="rutaForm" (ngSubmit)="asignarRuta()">
 
+        <!-- 🔹 Asignar Conductor (Combobox) con Bordes Redondeados -->
+        <ion-item class="custom-select">
+            <ion-label position="floating">Asignar Conductor</ion-label>
+            <ion-select formControlName="conductor" placeholder="Seleccione un conductor">
+                <ion-select-option *ngFor="let conductor of conductores" [value]="conductor.id">
+                    {{ conductor.name }}
+                </ion-select-option>
+            </ion-select>
+        </ion-item>
 
-</ion-content>
+        <!-- 🔹 Ingresar Cliente -->
+        <app-custom-input label="Cliente a Enviar" type="text" [formControl]="rutaForm.controls['cliente']">
+        </app-custom-input>
+
+        <!-- 🔹 Fecha del Envío -->
+        <app-custom-input label="Fecha del Envío" type="date" [formControl]="rutaForm.controls['fechaEnvio']">
+        </app-custom-input>
+
+        <!-- 🔹 Dirección del Cliente -->
+        <app-custom-input label="Dirección del Cliente" type="text" [formControl]="rutaForm.controls['direccion']">
+        </app-custom-input>
+
+        <!-- 🔹 Instrucciones del Envío -->
+        <app-custom-input label="Instrucciones del Envío" type="text"
+            [formControl]="rutaForm.controls['instrucciones']">
+        </app-custom-input>
+
+        <!-- 🔹 Botón para Asignar la Ruta -->
+        <ion-button expand="full" type="submit" [disabled]="rutaForm.invalid">Asignar Ruta</ion-button>
+    </form>
+
+    <!-- 🔹 Tabla de Rutas Asignadas -->
+    <div class="table-container" *ngIf="rutasAsignadas.length > 0">
+        <ion-card>
+            <ion-card-content>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Fecha del Envío</th>
+                            <th>Cliente</th>
+                            <th>Conductor Asignado</th>
+                            <th>Dirección</th>
+                            <th>Estado</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let ruta of rutasAsignadas">
+                            <td>{{ ruta.fechaEnvio | date }}</td>
+                            <td>{{ ruta.cliente }}</td>
+                            <td>{{ ruta.conductorName }}</td>
+                            <td>{{ ruta.direccion }}</td>
+                            <td>{{ ruta.estado }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </ion-card-content>
+        </ion-card>
+    </div>
+ </ion-content>

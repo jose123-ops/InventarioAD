@@ -1,0 +1,49 @@
+/* Estilo personalizado para que el ion-select tenga bordes redondeados */
+.custom-select {
+    --border-radius: 12px; /* Bordes redondeados */
+    --box-shadow: none; /* Quitar sombra (si no deseas una sombra) */
+  }
+  
+  ion-select {
+    --border-radius: 12px; /* Bordes redondeados en el select */
+    --background: #fff; /* Fondo blanco */
+    --padding-start: 16px; /* Ajuste de espacio interno */
+    --padding-end: 16px;
+  }
+  
+  ion-label {
+    --color: #000; /* Color de la etiqueta */
+  }
+
+  .table-container {
+    margin-top: 20px;
+  }
+  
+  .table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid #ddd;
+  }
+  
+  .table th,
+  .table td {
+    padding: 8px 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .table th {
+    background-color: #f4f4f4;
+    font-weight: bold;
+  }
+  
+  ion-card-content {
+    padding: 0;
+  }
+  
+  ion-card {
+    box-shadow: none;
+    border-radius: 12px;
+  }
+  
+  

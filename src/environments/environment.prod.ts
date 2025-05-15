@@ -1,13 +1,15 @@
 export const environment = {
   production: true, 
   apiUrl: 'http://localhost:3000', 
-  firebaseConfig: {
-    apiKey: "AIzaSyDMoSbPaQqP5xHOwOZ7PAznXovyyHuTJjU",
-    authDomain: "bodega-kouture.firebaseapp.com",
-    projectId: "bodega-kouture",
-    storageBucket: "bodega-kouture.firebasestorage.app",
-    messagingSenderId: "675001682277",
-    appId: "1:675001682277:web:85c3a37fc80ee7722bf98c",
   
-  }
+  firebaseConfig : {
+    apiKey: "AIzaSyDLDz_qpZvAMCKcsp2CP6lntsGG4bS_N8w",
+    authDomain: "inventario-ad-c44fe.firebaseapp.com",
+    projectId: "inventario-ad-c44fe",
+    storageBucket: "inventario-ad-c44fe.firebasestorage.app",
+    messagingSenderId: "865099923153",
+    appId: "1:865099923153:web:084884052fb450d8834ff0",
+    measurementId: "G-T5B0JH1X2Q"
+  },
+
 };

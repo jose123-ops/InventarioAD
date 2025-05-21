@@ -15,7 +15,7 @@ export class RoleGuard implements CanActivate {
     'admin': '/admin',
     'Jefe_Bodega': '/control-despacho',
     'Jefe_Logística': '/control-despacho',
-    'Auxiliar_Bodega': '/muestras',
+    'Auxiliar_Bodega': '/control-despacho',
     'conductor': '/asig-rutas',
     'RRHH': '/insumos'
   };

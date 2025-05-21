@@ -1,0 +1,21 @@
+.custom-input {
+  --border-radius: 12px;
+  --border-color: #ccc;
+  --highlight-color-focused: #3880ff;
+
+  --padding-start: 10px;
+  --padding-end: 10px;
+  --inner-padding-end: 10px;
+  --inner-padding-start: 10px;
+
+  --padding-top: 4px;
+  --padding-bottom: 4px;
+
+  font-size: 14px;
+}
+
+.custom-input ion-label {
+  font-size: 13px;
+  line-height: 1.2;
+
+}

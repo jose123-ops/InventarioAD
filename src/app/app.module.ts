@@ -10,12 +10,14 @@ import { SharedModule } from './shared/shared.module';
 import { ModalEditComponent } from './shared/component/modal-edit/modal-edit.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { AgregarEquipoComponent } from './shared/component/agregar-equipo/agregar-equipo.component';
 
 
 
 @NgModule({
   declarations: [AppComponent,  
-    ModalEditComponent],
+    ModalEditComponent,
+  AgregarEquipoComponent],
   imports:[
     BrowserModule,
     IonicModule.forRoot(),
@@ -23,6 +25,7 @@ import { HttpClientModule } from '@angular/common/http';
     AngularFireModule.initializeApp(environment.firebaseConfig),
     SharedModule,
     ReactiveFormsModule,
+    
     HttpClientModule,
   
   ],

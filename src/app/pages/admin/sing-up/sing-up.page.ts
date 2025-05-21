@@ -32,24 +32,28 @@ export class SingUpPage implements OnInit {
   }
 
  //---------------------------------/* Registra un nuevo usuario en Firebase */---------------------------------//
- async Registrar() {
+async Registrar() {
   if (this.form.valid) {
-    const loading = await this.service.loading('Cargando ...', 'crescent');
+    const loading = await this.service.loading('Cargando...', 'crescent');
 
-    this.firebasesvc.signup(this.form.value as { name: string, email: string, password: string, Rol: string })
-      .subscribe({
-        next: (res) => {
-          this.showToast(); // Mostrar notificación de éxito
-          this.router.navigate(['/admin']); // 🔹 Redirigir al administrador
-        },
-        error: (err) => {
-          console.error('Error en el signup:', err);
-          this.service.toast(err.message, 3000, 'middle');
-        },
-        complete: () => {
-          this.service.hide(loading);
-        }
-      });
+    // 🔹 Extraemos todos los datos necesarios, incluyendo el Rol
+    const userData = this.form.value as { name: string; email: string; password: string; Rol: string };
+
+    this.firebasesvc.signup(userData).subscribe({
+      next: (res) => {
+        this.service.toast('Usuario creado exitosamente', 2000, 'middle','success');
+        this.router.navigate(['/admin']);
+      },
+      error: (err) => {
+        console.error('Error en el signup:', err);
+        this.service.toast(err, 3000, 'middle');
+      },
+      complete: () => {
+        this.service.hide(loading);
+      }
+    });
+  } else {
+    this.service.toast('Formulario inválido', 2000, 'bottom');
   }
 }
 

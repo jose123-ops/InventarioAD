@@ -1,0 +1,203 @@
+<app-header title="Inventario"></app-header>
+
+<ion-content class="ion-padding">
+
+<ion-card>
+  <ion-card-header>
+    <ion-card-title>Filtros</ion-card-title>
+  </ion-card-header>
+  <ion-card-content>
+    <ion-row>
+     <!-- Filtro de Área -->
+    <ion-col size="12" size-md="6">
+      <div class="custom-filter">
+        <ion-item>
+          <ion-label>Área</ion-label>
+          <ion-select [(ngModel)]="filtro.area" placeholder="Selecciona un área" (ionChange)="filtrarEquipos()">
+            <ion-select-option *ngFor="let area of areas" [value]="area">{{ area }}</ion-select-option>
+          </ion-select>
+        </ion-item>
+      </div>
+    </ion-col>
+
+    <!-- Filtro de Año -->
+    <ion-col size="12" size-md="6">
+      <div class="custom-filter">
+        <ion-item>
+          <ion-label>Año</ion-label>
+          <ion-select [(ngModel)]="filtro.anio" placeholder="Selecciona año" (ionChange)="filtrarEquipos()">
+            <ion-select-option value="2024">2024</ion-select-option>
+            <ion-select-option value="2025">2025</ion-select-option>
+          </ion-select>
+        </ion-item>
+      </div>
+    </ion-col>
+    </ion-row>
+  </ion-card-content>
+</ion-card>
+
+
+  <!-- 🔽 Tabla (ahora más abajo) -->
+  <ion-card>
+<ion-card-header class="header-with-search">
+  <div class="search-container">
+    <ion-searchbar
+    [(ngModel)]="textoBusqueda"
+      (ionInput)="filtrarEquipos()"
+      placeholder="Buscar..."
+      animated="true"
+      debounce="300"
+      class="custom-searchbar">
+    </ion-searchbar>
+  </div>
+</ion-card-header>
+ <ion-card-title>Inventario</ion-card-title>
+    <ion-card-content>
+      <div class="table-container">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>NO</th>
+              <th>Codigo</th>
+              <th>Descripcion</th>
+              <th>Marca</th>
+              <th>Modelo</th>
+              <th>Serie</th>
+              <th>Color</th>
+              <th>Año</th>
+              <th>Estado</th>
+              <th>Area</th>
+              <th>Precio</th>
+              <th>No.Comprbante</th>
+              <th>No.Factura</th>
+              <th>Observacion</th>
+              <th>Opciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of inventarioFiltrado">
+              <td>{{ item.numero }}</td>
+              <td>{{ item.codigo }}</td>
+              <td>{{ item.descripcion }}</td>
+              <td>{{ item.marca }}</td>
+              <td>{{ item.modelo }}</td>
+              <td>{{ item.serie }}</td>
+              <td>{{ item.color }}</td>
+              <td>{{ item.anio }}</td>
+              <td>{{ item.estado }}</td>
+              <td>{{ item.Comprobante}}</td>
+              <td>{{ item.Factura }}</td>
+              <td>{{ item.ubicacion }}</td>
+              <td>{{ item.precio }}</td>
+              <td>{{ item.observacion }}</td>
+              <td>
+                <ion-button fill="clear" color="primary" size="small" (click)="OpenModalSubir()">
+                  <ion-icon name="cloud-upload-outline"></ion-icon>
+                </ion-button>
+                <ion-button fill="clear" color="danger" size="small">
+                  <ion-icon name="cloud-download-outline"></ion-icon>
+                </ion-button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- Contenedor para móviles -->
+    <ion-card-content>
+      <div class="mobile-container">
+        <div class="mobile-table" *ngFor="let item of inventarioFiltrado">
+          <table>
+            <tbody>
+              <tr>
+                <td class="title">No</td>
+                <td class="data">{{ item.numero }}</td>
+              </tr>
+              <tr>
+                <td class="title">Codigo</td>
+                <td class="data">{{ item.codigo  }}</td>
+              </tr>
+              <tr>
+                <td class="title">Descripcion</td>
+                <td class="data">{{ item.descripcion  }}</td>
+              </tr>
+              <tr>
+                <td class="title">Marca</td>
+                <td class="data">{{ item.marca  }}</td>
+              </tr>
+              <tr>
+                <td class="title">Modelo</td>
+                <td class="data">{{ item.modelo  }}</td>
+              </tr>
+              <tr>
+                <td class="title">Serie</td>
+                <td class="data">{{ item.serie}}</td>
+              </tr>
+              <tr>
+                <td class="title">Color</td>
+                <td class="data">{{ item.color }}</td>
+              </tr>
+              <tr>
+                <td class="title">Año</td>
+                <td class="data">{{ item.anio }}</td>
+              </tr>
+              <tr>
+                <td class="title">Estado</td>
+                <td class="data">{{ item.estado }}</td>
+              </tr>
+              <tr>
+                <td class="title">Factura</td>
+                <td class="data">{{ item.factura }}</td>
+              </tr>
+              <tr>
+                <td class="title">Ubicacion</td>
+                <td class="data">{{ item.ubicacion }}</td>
+              </tr>
+              <tr>
+                <td class="title">Precio</td>
+                <td class="data">{{ item.precio }}</td>
+              </tr>
+              <tr>
+                <td class="title">Comprobante</td>
+                <td class="data">{{ item.comprobante }}</td>
+              </tr>
+              <tr>
+                <td class="title">Observacion</td>
+                <td class="data">{{ item.observacion }}</td>
+              </tr>
+              <tr>
+                <td class="title">Opciones</td>
+                <td class="data actions">
+                 <ion-button fill="clear" color="primary" size="small">
+                  <ion-icon name="cloud-upload-outline"></ion-icon>
+                </ion-button>
+                <ion-button fill="clear" color="danger" size="small">
+                  <ion-icon name="cloud-download-outline"></ion-icon>
+                </ion-button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </ion-card-content>
+<div class="fab-container"> 
+  <ion-fab slot="fixed" vertical="bottom" horizontal="end">
+    <ion-fab-button routerLink="sing-up">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab> 
+</div>
+
+  <!-- FAB para agregar -->
+  <div class="fab-container"> 
+    <ion-fab slot="fixed" vertical="bottom" horizontal="end">
+      <ion-fab-button >
+        <ion-icon name="add"></ion-icon>
+      </ion-fab-button>
+    </ion-fab> 
+  </div>
+
+</ion-content>

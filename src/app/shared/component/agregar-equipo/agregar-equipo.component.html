@@ -1,0 +1,124 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Subir Equipo</ion-title>
+    <ion-buttons slot="end">
+      <ion-button >Cerrar</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-content class="ion-padding">
+  <form>
+
+    <ion-grid>
+      <!-- Fila 1: Código, Marca, Modelo -->
+      <ion-row>
+        <ion-col size="12" size-md="4">
+          <ion-item class="custom-input">
+            <ion-label  position="floating">Código</ion-label>
+            <ion-input [(ngModel)]="equipo.codigo" name="codigo" required fill="outline"></ion-input>
+          </ion-item>
+        </ion-col>
+
+        <ion-col size="12" size-md="4">
+          <ion-item class="custom-input">
+            <ion-label position="floating">Marca</ion-label>
+            <ion-input [(ngModel)]="equipo.marca" name="marca" fill="outline"></ion-input>
+          </ion-item>
+        </ion-col>
+
+        <ion-col size="12" size-md="4">
+          <ion-item class="custom-input">
+            <ion-label position="floating">Modelo</ion-label>
+            <ion-input [(ngModel)]="equipo.modelo" name="modelo" fill="outline"></ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+
+      <!-- Fila 2: Descripción -->
+      <ion-row>
+        <ion-col size="12">
+          <ion-item class="custom-input">
+            <ion-label position="floating">Descripción</ion-label>
+            <ion-input [(ngModel)]="equipo.descripcion" name="descripcion" fill="outline"></ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+
+      <!-- Fila 3: Serie, Color, Año -->
+      <ion-row>
+        <ion-col size="12" size-md="4">
+          <ion-item class="custom-input">
+            <ion-label position="floating">Serie</ion-label>
+            <ion-input [(ngModel)]="equipo.serie" name="serie" fill="outline"></ion-input>
+          </ion-item>
+        </ion-col>
+
+        <ion-col size="12" size-md="4">
+          <ion-item class="custom-input">
+            <ion-label position="floating">Color</ion-label>
+            <ion-input [(ngModel)]="equipo.color" name="color" fill="outline"></ion-input>
+          </ion-item>
+        </ion-col>
+
+        <ion-col size="12" size-md="4">
+          <ion-item class="custom-input">
+            <ion-label position="floating">Año</ion-label>
+            <ion-input type="number" [(ngModel)]="equipo.anio" name="anio" fill="outline"></ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+
+      <!-- Fila 4: Estado, Ubicación -->
+      <ion-row>
+        <ion-col size="12" size-md="6">
+          <ion-item class="custom-input">
+            <ion-label position="floating">Estado</ion-label>
+            <ion-select [(ngModel)]="equipo.estado" name="estado" fill="outline">
+              <ion-select-option value="Buen estado">Buen Estado</ion-select-option>
+              <ion-select-option value="En reparación">En reparación</ion-select-option>
+              <ion-select-option value="Mal Estado">Mal Estado</ion-select-option>
+            </ion-select>
+          </ion-item>
+        </ion-col>
+
+        <ion-col size="12" size-md="6">
+          <ion-item class="custom-input">
+            <ion-label position="floating">Ubicación (Área)</ion-label>
+            <ion-select [(ngModel)]="equipo.ubicacion" name="ubicacion" fill="outline">
+              <ion-select-option *ngFor="let area of areas" [value]="area">{{ area }}</ion-select-option>
+            </ion-select>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+
+      <!-- Fila 5: Observación -->
+      <ion-row>
+        <ion-col size="12">
+          <ion-item class="custom-input">
+            <ion-label position="floating">Observación</ion-label>
+            <ion-textarea [(ngModel)]="equipo.observacion" name="observacion" fill="outline"></ion-textarea>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+
+      <!-- Fila 6: Precio -->
+      <ion-row>
+        <ion-col size="12" size-md="6">
+          <ion-item class="custom-input">
+            <ion-label position="floating">Precio</ion-label>
+            <ion-input type="number" [(ngModel)]="equipo.precio" name="precio" step="0.01" fill="outline"></ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+
+    </ion-grid>
+  </form>
+</ion-content>
+
+<ion-footer>
+  <ion-button expand="full" color="primary" >
+      Guardar
+    </ion-button>
+</ion-footer>

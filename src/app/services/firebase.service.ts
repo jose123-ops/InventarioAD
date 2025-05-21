@@ -39,107 +39,56 @@ export class FirebaseService {
   }*/
 
 signup(user: { name: string, email: string, password: string, Rol: string }): Observable<any> {
-  const auth = getAuth();
-  const currentAdminUser = auth.currentUser; // 🔹 Guardamos al admin antes del registro
+    const auth = getAuth();
+    const db = getFirestore();
+    const currentAdminUser = auth.currentUser;
 
-  return new Observable((observer) => {
-    if (!currentAdminUser || !currentAdminUser.email) {
-      observer.error('No se encontró un usuario administrador autenticado.');
-      return;
-    }
+    return new Observable((observer) => {
+      if (!currentAdminUser || !currentAdminUser.email) {
+        observer.error('No hay un administrador autenticado.');
+        return;
+      }
 
-    // 🔹 Pedimos la contraseña del administrador de alguna forma segura
-    const adminPassword = prompt('Ingrese su contraseña para confirmar el registro del usuario:');
+      const adminEmail = currentAdminUser.email;
 
-    if (!adminPassword) {
-      observer.error('Se requiere la contraseña del administrador para registrar un nuevo usuario.');
-      return;
-    }
+      const adminPassword = prompt('Confirma con la contraseña del administrador:');
+      if (!adminPassword) {
+        observer.error('Contraseña del administrador no proporcionada.');
+        return;
+      }
 
-    const credential = EmailAuthProvider.credential(currentAdminUser.email, adminPassword);
+      signInWithEmailAndPassword(auth, adminEmail, adminPassword)
+        .then(() => {
+          return createUserWithEmailAndPassword(auth, user.email, user.password);
+        })
+        .then(async (userCredential) => {
+          const newUser = userCredential.user;
 
-    reauthenticateWithCredential(currentAdminUser, credential)
-      .then(() => {
-        return createUserWithEmailAndPassword(auth, user.email, user.password);
-      })
-      .then(async (userCredential) => {
-        const uid = userCredential.user.uid;
-
-        // 🔹 Desautenticamos al usuario recién creado para evitar cambiar la sesión del admin
-        await auth.signOut();
-
-        // 🔹 Volvemos a autenticar al administrador con sus credenciales
-        await signInWithEmailAndPassword(auth, currentAdminUser.email, adminPassword);
-
-        // 🔹 Enviar datos al backend
-        this.http.post<any>(`${this.apiUrl}/signup`, {
-          id: uid,
-          name: user.name,
-          email: user.email,
-          password: user.password,
-          Rol: user.Rol
-        }).subscribe({
-          next: (res) => observer.next(res),
-          error: (err) => observer.error(err),
-          complete: () => observer.complete()
-        });
-      })
-      .catch((error) => {
-        console.error('Error en la autenticación del administrador:', error);
-        observer.error(error);
-      });
-  });
-}
-
-getConductores(): Observable<any[]> {
-  return this.firestore.collection('users', ref => ref.where('Rol', '==', 'conductor')).valueChanges();
-}
-
-getRutasAsignadas(): Observable<any[]> {
-  return this.firestore.collection('rutas').valueChanges();
-}
-
-
-    
-
-   /* signup(user: { name: string, email: string, password: string, Rol: string }): Observable<any> {
-      const auth = getAuth();
-      const currentAdminUser = auth.currentUser; // 🔹 Guarda el usuario administrador actual
-    
-      return new Observable((observer) => {
-        createUserWithEmailAndPassword(auth, user.email, user.password)
-          .then(async (userCredential) => {
-            const uid = userCredential.user.uid;
-    
-            // 🔹 Desautenticamos al usuario recién creado para evitar cambiar la sesión del admin
-            await auth.signOut();
-    
-            // 🔹 Volvemos a autenticar al administrador con sus credenciales guardadas
-            if (currentAdminUser) {
-              await signInWithEmailAndPassword(auth, currentAdminUser.email, currentAdminUser.email);
-            }
-    
-            // 🔹 Enviamos los datos del usuario al backend
-            this.http.post<any>(`${this.apiUrl}/signup`, {
-              id: uid,
-              name: user.name,
-              email: user.email,
-              password: user.password,
-              Rol: user.Rol
-            }).subscribe({
-              next: (res) => observer.next(res),
-              error: (err) => observer.error(err),
-              complete: () => observer.complete()
-            });
-    
-          })
-          .catch((error) => {
-            console.error('Error en la creación del usuario:', error);
-            observer.error(error);
+          // Guardar datos adicionales en Firestore
+          await setDoc(doc(db, 'users', newUser.uid), {
+            Rol: user.Rol,
+            email: user.email,
+            name: user.name,
+            password: user.password,
+            Uid: newUser.uid,
+           
           });
-      });
-    }*/
-    
+
+          // Cerrar sesión del usuario creado (ya que Firebase lo loguea automáticamente)
+          await auth.signOut();
+
+          // Volver a loguear al admin
+          await signInWithEmailAndPassword(auth, adminEmail, adminPassword);
+
+          observer.next({ message: 'Usuario creado exitosamente', uid: newUser.uid });
+          observer.complete();
+        })
+        .catch((error) => {
+          console.error('Error en el proceso de registro:', error);
+          observer.error(error.message);
+        });
+    });
+  }
     
   getUserById(userId: string) {
     return this.firestore.collection('users').doc(userId).valueChanges();

@@ -18,7 +18,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     HeaderComponent,
     CustomInputComponent,
     ReactiveFormsModule,
-    LogoComponent 
+    LogoComponent,
+    FormsModule
   ],
 
   imports: [
@@ -26,7 +27,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     IonicModule,
     ReactiveFormsModule,
     FormsModule,
-
   ]
 })
 export class SharedModule { }

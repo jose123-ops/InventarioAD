@@ -18,25 +18,25 @@ const routes: Routes = [
     path: 'admin',
     loadChildren: () => import('./pages/admin/admin.module').then(m => m.AdminPageModule),
     canActivate: [AuthGuard, RoleGuard],
-    data: { Rol: ['admin'] }  // Solo el admin puede acceder
+    data: { Rol: ['admin','Gerente'] }  // Solo el admin puede acceder
   },
   {
     path: 'control-despacho',
     loadChildren: () => import('./pages/Inventario/control-despacho.module').then(m => m.ControlDespachoPageModule),
     canActivate: [AuthGuard, RoleGuard],
-    data: { Rol: ['admin', 'Jefe_Bodega', 'Jefe_Logística','Auxiliar_Bodega'] }  // Admin, jefe de bodega y logística pueden acceder
+    data: { Rol: ['admin', 'Gerente','Resp_S_Generales','Auxiliar_Bodega'] }  
   },
   {
     path: 'asig-rutas',
     loadChildren: () => import('./pages/Bodega/asig-rutas.module').then(m => m.AsigRutasPageModule),
     canActivate: [AuthGuard, RoleGuard],
-    data: { Rol: ['admin', 'Jefe_Bodega', 'Jefe_Logística', 'conductor'] }  // Admin, jefe de bodega, logística y conductor
+    data: { Rol: ['admin', 'Gerente','Resp_S_Generales','Auxiliar_Bodega'] }  
   },
   {
     path: 'insumos',
     loadChildren: () => import('./pages/Solicitudes/insumos.module').then(m => m.InsumosPageModule),
     canActivate: [AuthGuard, RoleGuard],
-    data: { Rol: ['admin', 'Jefe_Bodega', 'Jefe_Logística', 'RRHH'] }  // Admin, jefe de bodega, logística y rrhh
+    data: { Rol: ['admin', 'Gerente','Resp_S_Generales'] }  
   },
 
 ];

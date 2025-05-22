@@ -93,18 +93,16 @@
         </ion-col>
       </ion-row>
 
-      <!-- Fila 5: Observación -->
+
+        <!-- Fila 6-->
       <ion-row>
-        <ion-col size="12">
+        <ion-col size="12" size-md="6">
           <ion-item class="custom-input">
-            <ion-label position="floating">Observación</ion-label>
-            <ion-textarea [(ngModel)]="equipo.observacion" name="observacion" fill="outline"></ion-textarea>
+            <ion-label position="floating">No Comprobante</ion-label>
+            <ion-input type="number" [(ngModel)]="equipo.comprobante" name="comprobante" step="0.01" fill="outline"></ion-input>
           </ion-item>
         </ion-col>
-      </ion-row>
-
-      <!-- Fila 6: Precio -->
-      <ion-row>
+    
         <ion-col size="12" size-md="6">
           <ion-item class="custom-input">
             <ion-label position="floating">Precio</ion-label>
@@ -113,12 +111,30 @@
         </ion-col>
       </ion-row>
 
+      <ion-row>
+        <ion-col size="12" size-md="6">
+          <ion-item class="custom-input">
+            <ion-label position="floating">factura</ion-label>
+            <ion-input type="number" [(ngModel)]="equipo.factura" name="factura" step="0.01" fill="outline"></ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+
+        <!-- Fila 5: Observación -->
+      <ion-row>
+        <ion-col size="12">
+          <ion-item class="custom-input">
+            <ion-label position="floating">Observación</ion-label>
+            <ion-textarea [(ngModel)]="equipo.observacion" name="observacion" fill="outline"></ion-textarea>
+          </ion-item>
+        </ion-col>
+      </ion-row>
     </ion-grid>
   </form>
 </ion-content>
 
 <ion-footer>
-  <ion-button expand="full" color="primary" >
+  <ion-button expand="full" color="primary" (click)="guardar()">
       Guardar
     </ion-button>
 </ion-footer>

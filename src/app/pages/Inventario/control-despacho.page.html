@@ -26,7 +26,6 @@
         <ion-item>
           <ion-label>Año</ion-label>
           <ion-select [(ngModel)]="filtro.anio" placeholder="Selecciona año" (ionChange)="filtrarEquipos()">
-            <ion-select-option value="2024">2024</ion-select-option>
             <ion-select-option value="2025">2025</ion-select-option>
           </ion-select>
         </ion-item>
@@ -85,10 +84,10 @@
               <td>{{ item.color }}</td>
               <td>{{ item.anio }}</td>
               <td>{{ item.estado }}</td>
-              <td>{{ item.Comprobante}}</td>
-              <td>{{ item.Factura }}</td>
-              <td>{{ item.ubicacion }}</td>
+              <td>{{ item.ubicacion}}</td>
               <td>{{ item.precio }}</td>
+              <td>{{ item.comprobante }}</td>
+              <td>{{ item.factura }}</td>
               <td>{{ item.observacion }}</td>
               <td>
                 <ion-button fill="clear" color="primary" size="small" (click)="OpenModalSubir()">
@@ -162,6 +161,11 @@
               <tr>
                 <td class="title">Comprobante</td>
                 <td class="data">{{ item.comprobante }}</td>
+              </tr>
+
+                <tr>
+                <td class="title">Comprobante</td>
+                <td class="data">{{ item.factura }}</td>
               </tr>
               <tr>
                 <td class="title">Observacion</td>

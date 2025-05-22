@@ -15,8 +15,6 @@ export class FirebaseService {
   private userRoleSubject = new BehaviorSubject<string>('');
   public userRole$ = this.userRoleSubject.asObservable();
 
-  //private apiUrl = environment.apiBaseUrl;
-  private apiUrl = 'http://localhost:3000/api';
   isRoleLoaded: boolean;
 
   constructor(private auth: AngularFireAuth,
@@ -34,9 +32,6 @@ export class FirebaseService {
     return signInWithEmailAndPassword(getAuth(), user.email, user.password);
   }
 
-  /*signup(user: { email: string, password: string }) {
-    return createUserWithEmailAndPassword(getAuth(), user.email, user.password);
-  }*/
 
 signup(user: { name: string, email: string, password: string, Rol: string }): Observable<any> {
     const auth = getAuth();
@@ -192,20 +187,6 @@ signup(user: { name: string, email: string, password: string, Rol: string }): Ob
 
 }
 
-
-  /*getUser(): Observable<any[]> {
-    const usersCollection = this.firestore.collection('users').ref;
-  
-    return collectionData(usersCollection, { idField: 'id' }).pipe(
-      map(users => users.map(user => ({
-        ...user,
-        id: user.id || user.uid // 📌 Si `id` no existe, usa `uid`
-      })))
-    );
-  }*/
-
-  // Método para verificar si el usuario está autenticado
- 
 
 
 

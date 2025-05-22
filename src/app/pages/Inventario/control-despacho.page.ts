@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { AgregarEquipoComponent } from 'src/app/shared/component/agregar-equipo/agregar-equipo.component';
-
+import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { Equipo } from 'src/app/user.model';
 @Component({
   selector: 'app-control-despacho',
   templateUrl: './control-despacho.page.html',
@@ -9,25 +10,27 @@ import { AgregarEquipoComponent } from 'src/app/shared/component/agregar-equipo/
 })
 export class ControlDespachoPage implements OnInit {
 
-  areas = ['Transporte', 'Economia creativa', 'gestrion y Riesgo','asesoria legal','Despacho vice alcalde',
-    'Despacho Alcalde', 'Informatica','Contabilidad','Tesoreria','Presupuesto','Direccion Financiera','Catastro','Urbanismo','UMAS','Medio Ambiente','Servicio General',
-    'Secretaria del consejo','Auditorio','Panificacion','Inversiones Publicas', 'Adquisicion','Servicio Municipales',
-    'Registro Civil','RRHH','Gerencia','Recaudacion','Fierro'
+  areas = ['Transporte', 'Economia creativa', 'gestrion y Riesgo', 'asesoria legal', 'Despacho vice alcalde',
+    'Despacho Alcalde', 'Informatica', 'Contabilidad', 'Tesoreria', 'Presupuesto', 'Direccion Financiera', 'Catastro', 'Urbanismo', 'UMAS', 'Medio Ambiente', 'Servicio General',
+    'Secretaria del consejo', 'Auditorio', 'Panificacion', 'Inversiones Publicas', 'Adquisicion', 'Servicio Municipales',
+    'Registro Civil', 'RRHH', 'Gerencia', 'Recaudacion', 'Fierro'
   ];
 
-filtro = {
-  area: '',
-  anio: ''
-};
+  filtro = {
+    area: '',
+    anio: ''
+  };
 
-textoBusqueda: string = '';
+  inventario: (Equipo & { numero: number })[] = [];
 
-  inventario: any[] = [];
+  textoBusqueda: string = '';
+
+
   inventarioFiltrado: any[] = [];
 
 
 
-filtrarEquipos() {
+  filtrarEquipos() {
     const texto = this.textoBusqueda.toLowerCase();
 
     this.inventarioFiltrado = this.inventario.filter(item => {
@@ -48,34 +51,46 @@ filtrarEquipos() {
     });
   }
   constructor(
-     public modalController: ModalController
+    public modalController: ModalController,
+    public firestore: AngularFirestore
   ) { }
 
   ngOnInit() {
-    // Simular datos por ahora
-  this.inventario = [
-    {
-      numero: 1, descripcion: 'Laptop', codigo: 'ABC123', marca: 'HP', modelo: 'ProBook',
-      serie: 'SN123456', color: 'Negro', anio: 2024, estado: 'Operativo',
-      ubicacion: 'Gerencia', observacion: '', precio: 1200,Comprobante: 18520, Factura:548
-    },
-    {
-      numero: 2, descripcion: 'Monitor', codigo: 'DEF456', marca: 'Dell', modelo: 'U2419H',
-      serie: 'SN654321', color: 'Gris', anio: 2025, estado: 'Operativo',
-      ubicacion: 'Contabilidad', observacion: '', precio: 800,Comprobante: 18520, Factura:548
-    }
-  ];
-  this.filtrarEquipos();
-   
+    this.filtrarEquipos();
+    this.obtenerInventario();
+
   }
 
-    async OpenModalSubir(){
-        const modal = await this.modalController.create({
-            component: AgregarEquipoComponent,
-            mode: "ios",
-          });
-          await modal.present();
-    
-        }
+ obtenerInventario() {
+  this.inventario = [];
+
+  const solicitudes = this.areas.map(area =>
+    this.firestore.collection(area).get().toPromise().then(snapshot => {
+      snapshot.forEach(doc => {
+        const data = doc.data() as Equipo;
+        this.inventario.push({
+          ...data,
+          numero: this.inventario.length + 1
+        });
+      });
+    })
+  );
+
+  Promise.all(solicitudes).then(() => {
+    this.filtrarEquipos();
+  }).catch(error => {
+    console.error('Error al obtener los datos:', error);
+  });
+}
+
+   async OpenModalSubir() {
+    const modal = await this.modalController.create({
+      component: AgregarEquipoComponent,
+      mode: "ios",
+    });
+    await modal.present();
+
   }
+
+}
 

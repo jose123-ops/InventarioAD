@@ -11,23 +11,25 @@ import { ModalEditComponent } from './shared/component/modal-edit/modal-edit.com
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { AgregarEquipoComponent } from './shared/component/agregar-equipo/agregar-equipo.component';
+import { VerEquipoComponent } from './shared/component/ver-equipo/ver-equipo.component';
 
 
 
 @NgModule({
-  declarations: [AppComponent,  
+  declarations: [AppComponent,
     ModalEditComponent,
-  AgregarEquipoComponent],
-  imports:[
+    AgregarEquipoComponent,
+    VerEquipoComponent],
+
+  imports: [
     BrowserModule,
     IonicModule.forRoot(),
     AppRoutingModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
     SharedModule,
     ReactiveFormsModule,
-    
     HttpClientModule,
-  
+
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],

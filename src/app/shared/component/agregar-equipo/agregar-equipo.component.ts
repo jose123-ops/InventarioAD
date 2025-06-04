@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { FormGroup } from '@angular/forms';
+import { LoadingService } from 'src/app/services/loading.service';
 
 
 @Component({
@@ -11,9 +13,13 @@ import { AngularFirestore } from '@angular/fire/compat/firestore';
 })
 export class AgregarEquipoComponent implements OnInit {
 
+ @Input() equipos: any;
+ @Input() soloLectura = false;
+
   equipo: any = {
     numero: null,
     descripcion: '',
+    codigo_Contable: '',
     codigo: '',
     marca: '',
     modelo: '',
@@ -31,27 +37,47 @@ export class AgregarEquipoComponent implements OnInit {
     'Secretaria del consejo', 'Auditorio', 'Panificacion', 'Inversiones Publicas', 'Adquisicion', 'Servicio Municipales',
     'Registro Civil', 'RRHH', 'Gerencia', 'Recaudacion', 'Fierro'
   ];
-  modalCtrl: any;
-  constructor(public firestore: AngularFirestore) { }
 
-  ngOnInit() { }
+  constructor(public firestore: AngularFirestore,
+    public service: LoadingService,
+  ) { }
 
-  cerrar() {
-    this.modalCtrl.dismiss();
+  ngOnInit() { 
+    if (!this.equipo) {
+      this.equipo = {
+        codigo_Contable: '',
+        codigo: '',
+        descripcion: '',
+        marca: '',
+        modelo: '',
+        serie: '',
+        color: '',
+        anio: null,
+        estado: '',
+        ubicacion: '',
+        precio: null,
+        comprobante: '',
+        factura: '',
+        observacion: ''
+      };
+    }
   }
 
-  guardar() {
+ async  guardar() {
     if (!this.equipo.ubicacion) {
       alert('Debe seleccionar una ubicación (área).');
       return;
     }
+    const loading = await this.service.loading('Cargando...', 'crescent');
 
-    const nombreColeccion = this.equipo.ubicacion; // Ej: "Finanzas", "TI", etc.
+    const nombreColeccion = this.equipo.ubicacion; 
 
     this.firestore.collection(nombreColeccion).add(this.equipo)
       .then(() => {
-        alert('Equipo guardado exitosamente en la colección: ' + nombreColeccion);
+         this.service.hide(loading);
+          this.service.toast('Usuario creado exitosamente', 2000, 'middle','success');
         this.equipo = {
+          codigo_Contable: '',
           codigo: '',
           descripcion: '',
           marca: '',
@@ -65,8 +91,6 @@ export class AgregarEquipoComponent implements OnInit {
           comprobante: '',
           factura: '',
           observacion: '',
-
-
         };
       })
       .catch((error) => {

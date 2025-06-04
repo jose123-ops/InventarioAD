@@ -1,0 +1,42 @@
+ion-content {
+  --background: #f9f9f9;
+}
+
+ion-list {
+  background: white;
+  border-radius: 8px;
+  padding: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+ion-item {
+  --inner-padding-end: 0;
+  font-size: 15px;
+  line-height: 1.4;
+  border-bottom: 1px solid #e0e0e0;
+
+  strong {
+    display: inline-block;
+    width: 120px;
+    color: #333;
+    font-weight: 600;
+  }
+
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+ion-toolbar {
+  --background: #3880ff;
+  color: white;
+}
+
+ion-title {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+ion-button {
+  color: white;
+}

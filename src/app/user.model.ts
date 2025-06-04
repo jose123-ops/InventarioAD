@@ -8,6 +8,7 @@ export interface User {
 }
 
 export interface Equipo {
+  codigo_Contable: string,
   codigo: string;
   marca: string;
   modelo: string;

@@ -2,7 +2,7 @@
   <ion-toolbar>
     <ion-title>Subir Equipo</ion-title>
     <ion-buttons slot="end">
-      <ion-button >Cerrar</ion-button>
+      <ion-button>Cerrar</ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
@@ -16,7 +16,14 @@
       <ion-row>
         <ion-col size="12" size-md="4">
           <ion-item class="custom-input">
-            <ion-label  position="floating">Código</ion-label>
+            <ion-label position="floating">Código Contable</ion-label>
+            <ion-input [(ngModel)]="equipo.codigo_Contable" name="codigo_Contable" required fill="outline"></ion-input>
+          </ion-item>
+        </ion-col>
+
+        <ion-col size="12" size-md="4">
+          <ion-item class="custom-input">
+            <ion-label position="floating">Código</ion-label>
             <ion-input [(ngModel)]="equipo.codigo" name="codigo" required fill="outline"></ion-input>
           </ion-item>
         </ion-col>
@@ -28,15 +35,21 @@
           </ion-item>
         </ion-col>
 
-        <ion-col size="12" size-md="4">
+        <ion-col size="12" size-md="6">
           <ion-item class="custom-input">
             <ion-label position="floating">Modelo</ion-label>
             <ion-input [(ngModel)]="equipo.modelo" name="modelo" fill="outline"></ion-input>
           </ion-item>
         </ion-col>
+
+          <ion-col size="12" size-md="6">
+          <ion-item class="custom-input">
+            <ion-label position="floating">Serie</ion-label>
+            <ion-input [(ngModel)]="equipo.serie" name="serie" fill="outline"></ion-input>
+          </ion-item>
+        </ion-col>
       </ion-row>
 
-      <!-- Fila 2: Descripción -->
       <ion-row>
         <ion-col size="12">
           <ion-item class="custom-input">
@@ -46,23 +59,16 @@
         </ion-col>
       </ion-row>
 
-      <!-- Fila 3: Serie, Color, Año -->
       <ion-row>
-        <ion-col size="12" size-md="4">
-          <ion-item class="custom-input">
-            <ion-label position="floating">Serie</ion-label>
-            <ion-input [(ngModel)]="equipo.serie" name="serie" fill="outline"></ion-input>
-          </ion-item>
-        </ion-col>
-
-        <ion-col size="12" size-md="4">
+      
+        <ion-col size="12" size-md="6">
           <ion-item class="custom-input">
             <ion-label position="floating">Color</ion-label>
             <ion-input [(ngModel)]="equipo.color" name="color" fill="outline"></ion-input>
           </ion-item>
         </ion-col>
 
-        <ion-col size="12" size-md="4">
+        <ion-col size="12" size-md="">
           <ion-item class="custom-input">
             <ion-label position="floating">Año</ion-label>
             <ion-input type="number" [(ngModel)]="equipo.anio" name="anio" fill="outline"></ion-input>
@@ -94,33 +100,36 @@
       </ion-row>
 
 
-        <!-- Fila 6-->
+      <!-- Fila 6-->
       <ion-row>
         <ion-col size="12" size-md="6">
           <ion-item class="custom-input">
             <ion-label position="floating">No Comprobante</ion-label>
-            <ion-input type="number" [(ngModel)]="equipo.comprobante" name="comprobante" step="0.01" fill="outline"></ion-input>
+            <ion-input type="number" [(ngModel)]="equipo.comprobante" name="comprobante" step="0.01"
+              fill="outline"></ion-input>
           </ion-item>
         </ion-col>
-    
-        <ion-col size="12" size-md="6">
-          <ion-item class="custom-input">
-            <ion-label position="floating">Precio</ion-label>
-            <ion-input type="number" [(ngModel)]="equipo.precio" name="precio" step="0.01" fill="outline"></ion-input>
-          </ion-item>
-        </ion-col>
-      </ion-row>
 
-      <ion-row>
+
         <ion-col size="12" size-md="6">
           <ion-item class="custom-input">
             <ion-label position="floating">factura</ion-label>
             <ion-input type="number" [(ngModel)]="equipo.factura" name="factura" step="0.01" fill="outline"></ion-input>
           </ion-item>
         </ion-col>
+
+          <ion-col size="12" size-md="6">
+          <ion-item class="custom-input">
+            <ion-label position="floating">Precio</ion-label>
+            <ion-input type="number" [(ngModel)]="equipo.precio" name="precio" step="0.01" fill="outline"></ion-input>
+          </ion-item>
+        </ion-col>
+
+   
+      
       </ion-row>
 
-        <!-- Fila 5: Observación -->
+      <!-- Fila 5: Observación -->
       <ion-row>
         <ion-col size="12">
           <ion-item class="custom-input">
@@ -135,6 +144,6 @@
 
 <ion-footer>
   <ion-button expand="full" color="primary" (click)="guardar()">
-      Guardar
-    </ion-button>
+    Guardar
+  </ion-button>
 </ion-footer>

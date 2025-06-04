@@ -15,7 +15,7 @@ export class SingUpPage implements OnInit {
  public  image = false
 
   form = new FormGroup({
-    uid: new FormControl(''),
+    id: new FormControl(''),
     email: new FormControl('', [Validators.required, Validators.email]),
     password: new FormControl('', [Validators.required]),
     name: new FormControl('', [Validators.required, Validators.minLength(3)]),

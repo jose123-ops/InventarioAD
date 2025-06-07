@@ -6,6 +6,8 @@ import { Equipo } from 'src/app/user.model';
 import { VerEquipoComponent } from 'src/app/shared/component/ver-equipo/ver-equipo.component';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { AlertController } from '@ionic/angular';
+import firebase from 'firebase/compat/app';
+
 @Component({
   selector: 'app-control-despacho',
   templateUrl: './control-despacho.page.html',
@@ -130,9 +132,13 @@ export class ControlDespachoPage implements OnInit {
         const data = doc.data() as Equipo;
         this.inventario.push({
           ...data,
-          id: doc.id,        // 🔴 ID del documento
-          area: area,        // 🔵 Nombre de la colección de origen
-          numero: this.inventario.length + 1
+          id: doc.id,        
+          area: area,        
+          numero: this.inventario.length + 1,
+          baja: data.baja 
+  
+  
+
         }as any);
       });
     })
@@ -168,7 +174,7 @@ export class ControlDespachoPage implements OnInit {
   async confirmarBaja(item: any) {
   const alert = await this.alertController.create({
     header: 'Confirmar baja',
-    message: '¿Estás seguro de que deseas marcar este equipo como dado de baja?',
+    message: '¿Mandar Propuesta de Baja?',
     buttons: [
       {
         text: 'Cancelar',
@@ -193,9 +199,11 @@ marcarComoBaja(item: any) {
   }
 
   this.firestore.collection(item.area).doc(item.id).update({
-    baja: false
+    baja: false,
+  
   }).then(() => {
-    console.log('Equipo marcado como baja en área:', item.area);
+    console.log('Solicitud de baja enviada');
+    item.baja = false; // ✅ reflejar el estado correctamente
   }).catch(err => {
     console.error('Error al marcar como baja', err);
   });
@@ -215,6 +223,37 @@ permitirBaja(item: any) {
   }).catch(err => {
     console.error('Error al permitir la baja', err);
   });
+}
+
+darDeBaja(item: any) {
+  if (!item.area || !item.id) {
+    console.error('Falta información del equipo');
+    return;
+  }
+
+  const equipoConFecha = {
+    ...item,
+    fecha: firebase.firestore.FieldValue.serverTimestamp() // Fecha adentro del documento del equipo
+  };
+
+  this.firestore
+    .collection('equiposDeBaja')
+    .doc(item.area) // Subcolección identificada por el área
+    .set(equipoConFecha)
+    .then(() => {
+      console.log(`Equipo movido a equiposDeBaja/${item.area}/equipos con ID: ${item.id}`);
+
+      // Opcional: eliminar del área original
+      this.firestore.collection(item.area).doc(item.id).delete()
+        .then(() => {
+          console.log('Equipo eliminado del área original');
+          this.equiposFiltrados = this.equiposFiltrados.filter(eq => eq.id !== item.id);
+        })
+        .catch(err => console.error('Error al eliminar equipo original:', err));
+    })
+    .catch(err => {
+      console.error('Error al guardar en equiposDeBaja:', err);
+    });
 }
 
 }

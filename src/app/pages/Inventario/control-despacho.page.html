@@ -83,7 +83,8 @@
               <th>Estado</th>
               <th>Area</th>
               <th>Observacion</th>
-              <th>Opciones</th>
+              <th>Opcion</th>
+              <th>Accion</th>
             </tr>
           </thead>
           <tbody>
@@ -99,15 +100,24 @@
               <td>{{ item.estado }}</td>
               <td>{{ item.ubicacion}}</td>
               <td>{{ item.observacion }}</td>
+               <td>
+                    <ion-button shape="round" color="primary" size="small" (click)="verEquipo(item)" >
+                      Ver mas
+                </ion-button>
+               </td> 
               <td>
-                <ion-button fill="clear" color="primary" size="small" (click)="verEquipo(item)" >
-                  <ion-icon name="cloud-upload-outline"></ion-icon>
+                <ion-button *ngIf="!isAdmin && (item.baja === undefined || item.baja === null)" shape="round" color="warning" size="small" (click)="confirmarBaja(item)">Solicitud de Baja
                 </ion-button>
-                <ion-button *ngIf="!isAdmin" fill="clear" color="danger" size="small" (click)="confirmarBaja(item)">
-                  <ion-icon name="cloud-download-outline"></ion-icon>
+                <ion-button  *ngIf="isAdmin && item.baja === false"  shape="round" color="danger" size="small" (click)="permitirBaja(item)">Aceptar
                 </ion-button>
-                <ion-button  *ngIf="isAdmin && item.baja === false"  shape="round" color="danger" size="small"  (click)="permitirBaja(item)">Permitir
+                <ion-chip *ngIf="!isAdmin && item.baja === false" color="success">en espera</ion-chip>
+
+                <ion-button  *ngIf="!isAdmin && item.baja === true"  shape="round" color="danger" size="small" (click)="darDeBaja(item)">Dar de baja
                 </ion-button>
+
+                <ion-chip *ngIf="isAdmin && item.baja === true" color="primary">Aceptado</ion-chip>
+                
+              
               </td>
             </tr>
           </tbody>

@@ -21,4 +21,6 @@ export interface Equipo {
   observacion: string;
   factura:string;
   precio: number;
+  baja?: boolean;
+  aceptar?: boolean;
 }

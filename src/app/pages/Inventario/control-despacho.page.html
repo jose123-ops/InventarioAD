@@ -12,7 +12,7 @@
      <!-- Filtro de Área -->
     <ion-col size="12" size-md="6">
       <div class="custom-filter">
-        <ion-item>
+        <ion-item >
           <ion-label>Área</ion-label>
           <ion-select [(ngModel)]="filtro.area" placeholder="Selecciona un área" (ionChange)="filtrarEquipos()">
             <ion-select-option *ngFor="let area of areas" [value]="area">{{ area }}</ion-select-option>
@@ -105,20 +105,29 @@
                       Ver mas
                 </ion-button>
                </td> 
-              <td>
-                <ion-button *ngIf="!isAdmin && (item.baja === undefined || item.baja === null)" shape="round" color="warning" size="small" (click)="confirmarBaja(item)">Solicitud de Baja
-                </ion-button>
-                <ion-button  *ngIf="isAdmin && item.baja === false"  shape="round" color="danger" size="small" (click)="permitirBaja(item)">Aceptar
-                </ion-button>
-                <ion-chip *ngIf="!isAdmin && item.baja === false" color="success">en espera</ion-chip>
+            <td>
+  <ion-button *ngIf="isUsuarioNormal && item.baja === undefined" shape="round" color="warning" size="small" (click)="confirmarBaja(item)">
+  Solicitud de Baja
+</ion-button>
+<ion-chip *ngIf="isUsuarioNormal && item.baja === null" color="success">enviado</ion-chip>
 
-                <ion-button  *ngIf="!isAdmin && item.baja === true"  shape="round" color="danger" size="small" (click)="darDeBaja(item)">Dar de baja
-                </ion-button>
+<!-- Jefe o Auxiliar de Bodega -->
+<ion-chip *ngIf="(isJefeBodega || isAuxBodega) && item.baja === undefined" color="medium">sin acción</ion-chip>
+<ion-button *ngIf="(isJefeBodega || isAuxBodega) && item.baja === null" shape="round" color="warning" size="small" (click)="confirmarBajaJ(item)">
+  Solicitud de Baja
+</ion-button>
+<ion-chip *ngIf="(isJefeBodega || isAuxBodega) && item.baja === false" color="success">en espera</ion-chip>
+<ion-button *ngIf="(isJefeBodega || isAuxBodega) && item.baja === true" shape="round" color="danger" size="small" (click)="darDeBaja(item)">
+  Dar de baja
+</ion-button>
 
-                <ion-chip *ngIf="isAdmin && item.baja === true" color="primary">Aceptado</ion-chip>
-                
-              
-              </td>
+<!-- Gerente -->
+<ion-chip *ngIf="isGerente && (item.baja === undefined || item.baja === null)" color="medium">sin acción</ion-chip>
+<ion-button *ngIf="isGerente && item.baja === false" shape="round" color="danger" size="small" (click)="permitirBaja(item)">
+  Aceptar
+</ion-button>
+<ion-chip *ngIf="isGerente && item.baja === true" color="primary">Aceptado</ion-chip>
+</td>
             </tr>
           </tbody>
         </table>

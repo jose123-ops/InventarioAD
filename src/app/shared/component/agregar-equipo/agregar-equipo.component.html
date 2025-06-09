@@ -42,7 +42,7 @@
           </ion-item>
         </ion-col>
 
-          <ion-col size="12" size-md="6">
+        <ion-col size="12" size-md="6">
           <ion-item class="custom-input">
             <ion-label position="floating">Serie</ion-label>
             <ion-input [(ngModel)]="equipo.serie" name="serie" fill="outline"></ion-input>
@@ -60,7 +60,7 @@
       </ion-row>
 
       <ion-row>
-      
+
         <ion-col size="12" size-md="6">
           <ion-item class="custom-input">
             <ion-label position="floating">Color</ion-label>
@@ -91,9 +91,9 @@
 
         <ion-col size="12" size-md="6">
           <ion-item class="custom-input">
-            <ion-label position="floating">Ubicación (Área)</ion-label>
-            <ion-select [(ngModel)]="equipo.ubicacion" name="ubicacion" fill="outline">
-              <ion-select-option *ngFor="let area of areas" [value]="area">{{ area }}</ion-select-option>
+            <ion-label position="floating">Ubicación (Áreas)</ion-label>
+            <ion-select [(ngModel)]="equipo.ubicacion">
+              <ion-select-option *ngFor="let area of Areas" [value]="area">{{ area }}</ion-select-option>
             </ion-select>
           </ion-item>
         </ion-col>
@@ -118,15 +118,15 @@
           </ion-item>
         </ion-col>
 
-          <ion-col size="12" size-md="6">
+        <ion-col size="12" size-md="6">
           <ion-item class="custom-input">
             <ion-label position="floating">Precio</ion-label>
             <ion-input type="number" [(ngModel)]="equipo.precio" name="precio" step="0.01" fill="outline"></ion-input>
           </ion-item>
         </ion-col>
 
-   
-      
+
+
       </ion-row>
 
       <!-- Fila 5: Observación -->

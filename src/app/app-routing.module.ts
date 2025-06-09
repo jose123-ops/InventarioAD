@@ -21,22 +21,27 @@ const routes: Routes = [
     data: { Rol: ['admin','Gerente'] }  // Solo el admin puede acceder
   },
   {
-    path: 'control-despacho',
-    loadChildren: () => import('./pages/Inventario/control-despacho.module').then(m => m.ControlDespachoPageModule),
-    canActivate: [AuthGuard, RoleGuard],
-    data: { Rol: ['admin', 'Gerente','Resp_S_Generales','Auxiliar_Bodega'] }  
-  },
+   path: 'control-despacho',
+  loadChildren: () => import('./pages/Inventario/control-despacho.module').then(m => m.ControlDespachoPageModule),
+  canActivate: [AuthGuard, RoleGuard],
+  data: {
+  Rol: ['admin', 'Gerente', 'Jefe_Bodega', 'Auxiliar_Bodega', 'Resp_Informatica', 'Resp_Trasporte', 'Resp_Economia_Creativa', 
+    'Resp_UMGIR', 'Resp_Asesoria_Legal', 'Resp_Mercado', 'Vice_Alcalde', 'Alcalde', 'Resp_catastro', 'Resp_Urbanismo', 'Resp_UMAS', 
+    'Resp_Medio_Ambiente', 'Secretaria_Consejo', 'Resp_Finanza', 'Resp_Presupuesto', 'Resp_Contabilidad', 'Resp_Tesoreria', 'Resp_RRHH',
+     'Resp_Servicios_Municipales', 'Resp_Registro_Civil', 'Resp_Adquisiciones', 'Resp_Recaudacion', 'Resp_Proyecto', 'Resp_Planificacion']
+}
+},
   {
     path: 'asig-rutas',
     loadChildren: () => import('./pages/Bodega/asig-rutas.module').then(m => m.AsigRutasPageModule),
     canActivate: [AuthGuard, RoleGuard],
-    data: { Rol: ['admin', 'Gerente','Resp_S_Generales','Auxiliar_Bodega'] }  
+    data: { Rol: ['admin', 'Gerente','Jefe_Bodega','Auxiliar_Bodega'] }  
   },
   {
     path: 'insumos',
     loadChildren: () => import('./pages/Solicitudes/insumos.module').then(m => m.InsumosPageModule),
     canActivate: [AuthGuard, RoleGuard],
-    data: { Rol: ['admin', 'Gerente','Resp_S_Generales'] }  
+    data: { Rol: ['admin', 'Gerente','Jefe_Bodega'] }  
   },
 
 ];

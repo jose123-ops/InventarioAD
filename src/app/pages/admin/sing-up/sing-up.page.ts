@@ -36,7 +36,7 @@ async Registrar() {
   if (this.form.valid) {
     const loading = await this.service.loading('Cargando...', 'crescent');
 
-    // 🔹 Extraemos todos los datos necesarios, incluyendo el Rol
+   
     const userData = this.form.value as { name: string; email: string; password: string; Rol: string };
 
     this.firebasesvc.signup(userData).subscribe({
@@ -59,8 +59,7 @@ async Registrar() {
 
   
   showToast() {
-    this.service.toast('Usuario registrado con éxito', 3000, 'top');  // Mostrar mensaje de éxito
-  }
+    this.service.toast('Usuario registrado con éxito', 3000, 'top');  
 
   /*-----------------------------------------------------------------------------------------------------------*/
  
@@ -104,6 +103,7 @@ async Registrar() {
 
 
   
+}
 }
 
  

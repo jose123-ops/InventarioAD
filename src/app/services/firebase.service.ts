@@ -69,7 +69,7 @@ signup(user: { name: string, email: string, password: string, Rol: string }): Ob
            
           });
 
-          // Cerrar sesión del usuario creado (ya que Firebase lo loguea automáticamente)
+         
           await auth.signOut();
 
           // Volver a loguear al admin
@@ -127,7 +127,7 @@ signup(user: { name: string, email: string, password: string, Rol: string }): Ob
   public initAuthListener() {
     const auth = getAuth();
     onAuthStateChanged(auth, async (user) => {
-      if (user && user.email !== 'admin@kouture.com') { // ⛔ Evita sobreescribir el rol del admin
+      if (user && user.email !== 'admin@kouture.com') { 
         this.currentUser = user;
         await this.loadUserRole(user.uid);
       } else {
@@ -171,7 +171,7 @@ signup(user: { name: string, email: string, password: string, Rol: string }): Ob
       .subscribe({
         next: (querySnapshot) => {
           if (!querySnapshot.empty) {
-            const userData = querySnapshot.docs[0].data(); // Tomamos el primer resultado
+            const userData = querySnapshot.docs[0].data(); 
             resolve(userData);
           } else {
             resolve(null);

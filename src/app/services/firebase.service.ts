@@ -65,7 +65,7 @@ signup(user: { name: string, email: string, password: string, Rol: string }): Ob
             email: user.email,
             name: user.name,
             password: user.password,
-            Uid: newUser.uid,
+            uid: newUser.uid,
            
           });
 

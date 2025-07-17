@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { FormGroup } from '@angular/forms';
+import { ModalController } from '@ionic/angular';
 import { LoadingService } from 'src/app/services/loading.service';
 
 
@@ -47,7 +48,8 @@ export class AgregarEquipoComponent implements OnInit {
 
   constructor(public firestore: AngularFirestore,
     public service: LoadingService,
-    private afAuth: AngularFireAuth
+    private afAuth: AngularFireAuth,
+    public modalController: ModalController,
   ) { }
 
   ngOnInit() {
@@ -106,5 +108,9 @@ export class AgregarEquipoComponent implements OnInit {
         console.error('Error al guardar el equipo:', error);
         alert('Hubo un error al guardar el equipo');
       });
+  }
+
+    closeModal() {
+    this.modalController.dismiss(); 
   }
 }

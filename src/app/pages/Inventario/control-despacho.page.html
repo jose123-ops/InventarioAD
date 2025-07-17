@@ -88,7 +88,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let item of inventarioFiltrado">
+            <tr *ngFor="let item of inventarioFiltrado; trackBy: trackByCodigo">
               <td>{{ item.numero }}</td>
               <td>{{ item.codigo }}</td>
               <td>{{ item.descripcion }}</td>
@@ -127,13 +127,13 @@
                 </ion-button>
 
                 <!-- Gerente -->
-                <ion-chip *ngIf="isGerente && (item.baja === undefined || item.baja === null)" color="medium">sin
+                <ion-chip *ngIf="(isGerente || isAdmin) && (item.baja === undefined || item.baja === null)" color="medium">sin
                   acción</ion-chip>
-                <ion-button *ngIf="isGerente && item.baja === false" shape="round" color="danger" size="small"
+                <ion-button *ngIf="(isGerente || isAdmin) && item.baja === false" shape="round" color="danger" size="small"
                   (click)="permitirBaja(item)">
                   Aceptar
                 </ion-button>
-                <ion-chip *ngIf="isGerente && item.baja === true" color="primary">Aceptado</ion-chip>
+                <ion-chip *ngIf="(isGerente || isAdmin)&& item.baja === true" color="primary">Aceptado</ion-chip>
               </td>
             </tr>
           </tbody>
@@ -149,10 +149,6 @@
         <table>
           <tbody>
             <tr>
-              <td class="title">No</td>
-              <td class="data">{{ item.numero }}</td>
-            </tr>
-            <tr>
               <td class="title">Codigo</td>
               <td class="data">{{ item.codigo }}</td>
             </tr>
@@ -161,53 +157,11 @@
               <td class="data">{{ item.descripcion }}</td>
             </tr>
             <tr>
-              <td class="title">Marca</td>
-              <td class="data">{{ item.marca }}</td>
-            </tr>
-            <tr>
-              <td class="title">Modelo</td>
-              <td class="data">{{ item.modelo }}</td>
-            </tr>
-            <tr>
-              <td class="title">Serie</td>
-              <td class="data">{{ item.serie}}</td>
-            </tr>
-            <tr>
-              <td class="title">Color</td>
-              <td class="data">{{ item.color }}</td>
-            </tr>
-            <tr>
               <td class="title">Año</td>
               <td class="data">{{ item.anio }}</td>
-            </tr>
-            <tr>
-              <td class="title">Estado</td>
-              <td class="data">{{ item.estado }}</td>
-            </tr>
-            <tr>
-              <td class="title">Factura</td>
-              <td class="data">{{ item.factura }}</td>
-            </tr>
             <tr>
               <td class="title">Ubicacion</td>
               <td class="data">{{ item.ubicacion }}</td>
-            </tr>
-            <tr>
-              <td class="title">Precio</td>
-              <td class="data">{{ item.precio }}</td>
-            </tr>
-            <tr>
-              <td class="title">Comprobante</td>
-              <td class="data">{{ item.comprobante }}</td>
-            </tr>
-
-            <tr>
-              <td class="title">Comprobante</td>
-              <td class="data">{{ item.factura }}</td>
-            </tr>
-            <tr>
-              <td class="title">Observacion</td>
-              <td class="data">{{ item.observacion }}</td>
             </tr>
             <tr>
               <td class="title">Opciones</td>
